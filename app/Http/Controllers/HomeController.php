@@ -9,6 +9,7 @@ use App\Models\Payment;
 use App\Models\Incoming;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\DataController;
+use Inertia\Inertia;
 
 class HomeController extends Controller
 {
@@ -56,7 +57,7 @@ class HomeController extends Controller
 
         $balance = Balance::getBalanceByUserId(Auth::user()->id);
 
-        return view('home', [
+        return Inertia::render('Dashboard', [
             'monthsLeft' => $monthsLeft,
             'regularPayments' => $regularPayments,
             'paymentsMonthsLeft' => $paymentMonthsLeft,
@@ -66,7 +67,7 @@ class HomeController extends Controller
             'data' => $data,
             'cashPayments' => $cashPayments,
             'cardPayments' => $cardPayments,
-            'in_and_out' => $in_and_out,
+            'inAndOut' => $in_and_out,
             'balance' => $balance
         ]);
     }

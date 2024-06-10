@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('data', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->integer('food_drink');
+            $table->integer('housing');
+            $table->integer('transportation');
+            $table->integer('healthcare');
+            $table->integer('entertainment');
+            $table->integer('other');
             $table->timestamps();
         });
     }

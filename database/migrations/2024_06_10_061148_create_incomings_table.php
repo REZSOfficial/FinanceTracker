@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('incomings', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->string('title');
+            $table->integer('amount');
+            $table->boolean('regular')->notNull();
+            $table->integer('period')->nullable()->default(0);
+            $table->string('type');
+            $table->string('type_of_payment');
             $table->timestamps();
         });
     }

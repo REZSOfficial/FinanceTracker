@@ -5,3 +5,17 @@
 [x-cloak] {
     display: none;
 }
+
+#app-container {
+    background-image: url('../images/Sprinkle.svg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.glass{
+    background: rgba(255, 255, 255, 0.13);
+    border: 1px solid rgba(255, 255, 255, 0.438);
+    backdrop-filter: blur(2px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
