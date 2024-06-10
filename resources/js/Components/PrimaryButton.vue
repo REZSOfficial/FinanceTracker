@@ -5,7 +5,10 @@ defineProps({
         type: String,
         default: "submit",
     },
-    icon: Object,
+    icon: {
+        type: Object,
+        default: null,
+    },
 });
 </script>
 
@@ -17,7 +20,7 @@ defineProps({
         <div class="hidden md:block">
             <slot />
         </div>
-        <div class="block md:hidden">
+        <div v-if="icon" class="block md:hidden">
             <FontAwesomeIcon class="text-xl" :icon="icon"></FontAwesomeIcon>
         </div>
     </button>

@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --dark: #001220;
+    --light: #002233;
+    --ligther: #B6BBC4;
+    --bg: #F0ECE5;
+    --linear-bg: url('../images/stacked-waves-haikei.svg');
+    --footer-bg: url('../images/layered-waves-haikei.svg');
+  }
+
 [x-cloak] {
     display: none;
 }
@@ -18,4 +27,8 @@
     border: 1px solid rgba(255, 255, 255, 0.438);
     backdrop-filter: blur(2px);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+input{
+    background-color: var(--light);
 }

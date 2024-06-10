@@ -19,7 +19,7 @@ const props = defineProps({
     <div
         class="flex justify-between p-4 text-xl text-white rounded bg-light gap-x-3"
     >
-        <div class="w-1/3 p-6 py-12 text-center rounded bg-dark">
+        <div class="w-1/2 p-6 py-12 text-center rounded bg-dark">
             <FontAwesomeIcon
                 class="p-3 text-2xl text-black bg-red-600 rounded-full"
                 v-if="regular.type === 'food_drink'"

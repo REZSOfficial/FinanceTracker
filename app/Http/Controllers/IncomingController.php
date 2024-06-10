@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Balance;
 use App\Models\Incoming;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class IncomingController extends Controller
@@ -23,11 +24,11 @@ class IncomingController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->messages(), 400);
+            return back();
         }
 
-        $user_id = $request['user_id'];
-        $data = Incoming::Create(
+        $user_id = Auth::user()->id;
+        Incoming::Create(
             [
                 'user_id' => $user_id,
                 'title' => $request['title'],
@@ -43,6 +44,6 @@ class IncomingController extends Controller
         $newBalance = $amount + $request['amount'];
         Balance::where('user_id', $user_id)->update(array('balance' => $newBalance));
 
-        return response()->json(['incoming' => $data, 'newBalance' => $newBalance], 200);
+        return back();
     }
 }
