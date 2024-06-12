@@ -54,91 +54,95 @@ export default {
     },
     methods: {
         initializeChart() {
-            const thisMonth = document.getElementById("this-month");
-            let inAndOutData = [this.inAndOut["in"], this.inAndOut["out"]];
-            new Chart(thisMonth, {
-                type: "doughnut",
-                data: {
-                    labels: ["In", "Out"],
-                    datasets: [
-                        {
-                            data: inAndOutData,
-                            borderWidth: 1,
-                            backgroundColor: ["#98D8AA", "#FF6D60"],
+            if (this.inAndOut) {
+                const thisMonth = document.getElementById("this-month");
+                let inAndOutData = [this.inAndOut["in"], this.inAndOut["out"]];
+                new Chart(thisMonth, {
+                    type: "doughnut",
+                    data: {
+                        labels: ["In", "Out"],
+                        datasets: [
+                            {
+                                data: inAndOutData,
+                                borderWidth: 1,
+                                backgroundColor: ["#98D8AA", "#FF6D60"],
+                            },
+                        ],
+                    },
+                    options: {
+                        plugins: {
+                            tooltip: {
+                                enabled: true,
+                            },
+                            legend: {
+                                display: false,
+                            },
                         },
-                    ],
-                },
-                options: {
-                    plugins: {
-                        tooltip: {
-                            enabled: true,
-                        },
-                        legend: {
-                            display: false,
+                        scales: {
+                            y: {
+                                display: false,
+                            },
+                            x: {
+                                display: false,
+                            },
                         },
                     },
-                    scales: {
-                        y: {
-                            display: false,
-                        },
-                        x: {
-                            display: false,
-                        },
-                    },
-                },
-            });
+                });
+            }
         },
 
         initializeAvgChart() {
-            let names = [
-                "Food and drink",
-                "Housing",
-                "Transportation",
-                "Healthcare",
-                "Entertainment",
-                "Other",
-            ];
-            let prices = [
-                this.data.food_drink,
-                this.data.housing,
-                this.data.transportation,
-                this.data.healthcare,
-                this.data.entertainment,
-                this.data.other,
-            ];
+            if (this.data) {
+                let names = [
+                    "Food and drink",
+                    "Housing",
+                    "Transportation",
+                    "Healthcare",
+                    "Entertainment",
+                    "Other",
+                ];
+                let prices = [
+                    this.data.food_drink,
+                    this.data.housing,
+                    this.data.transportation,
+                    this.data.healthcare,
+                    this.data.entertainment,
+                    this.data.other,
+                ];
 
-            const avgmonthly = document.getElementById("avgmonthly");
+                const avgmonthly = document.getElementById("avgmonthly");
 
-            new Chart(avgmonthly, {
-                type: "pie",
-                data: {
-                    labels: names,
-                    datasets: [
-                        {
-                            data: prices,
-                            borderWidth: 1,
+                new Chart(avgmonthly, {
+                    type: "pie",
+                    data: {
+                        labels: names,
+                        datasets: [
+                            {
+                                data: prices,
+                                borderWidth: 1,
+                            },
+                        ],
+                    },
+                    options: {
+                        plugins: {
+                            tooltip: {
+                                enabled: true,
+                            },
+                            legend: {
+                                display: false,
+                            },
                         },
-                    ],
-                },
-                options: {
-                    plugins: {
-                        tooltip: {
-                            enabled: true,
-                        },
-                        legend: {
-                            display: false,
+                        scales: {
+                            y: {
+                                display: false,
+                            },
+                            x: {
+                                display: false,
+                            },
                         },
                     },
-                    scales: {
-                        y: {
-                            display: false,
-                        },
-                        x: {
-                            display: false,
-                        },
-                    },
-                },
-            });
+                });
+            }
         },
     },
 };
@@ -151,10 +155,13 @@ export default {
             <div class="flex flex-col gap-2 md:flex-row">
                 <!-- Avarage -->
                 <div
-                    class="flex justify-between w-full p-4 text-white rounded md:w-1/2 bg-dark"
+                    class="flex justify-between w-full p-4 text-white rounded gap-x-2 md:w-1/2 bg-dark"
                 >
-                    <div class="w-1/4 my-auto chart-container">
+                    <div v-if="data" class="w-1/4 my-auto chart-container">
                         <canvas id="avgmonthly"></canvas>
+                    </div>
+                    <div class="px-2 my-auto bg-red-600 rounded" v-else>
+                        No Data Set
                     </div>
                     <h1 class="p-2 my-auto text-xl rounded glass">
                         Avarage Monthly Spendings
@@ -162,7 +169,7 @@ export default {
                 </div>
                 <!-- In and Out -->
                 <div
-                    class="flex justify-between w-full p-4 text-white rounded md:w-1/2 bg-dark"
+                    class="flex justify-between w-full p-4 text-white rounded gap-x-2 md:w-1/2 bg-dark"
                 >
                     <div class="w-1/4 my-auto chart-container">
                         <canvas id="this-month"></canvas>
@@ -170,7 +177,10 @@ export default {
                     <h1 class="p-2 my-auto text-xl rounded glass">
                         This Month
                     </h1>
-                    <div class="flex flex-col font-bold gap-y-1 text-dark">
+                    <div
+                        v-if="balance"
+                        class="flex flex-col font-bold gap-y-1 text-dark"
+                    >
                         <p class="p-1 px-2 bg-red-600 rounded">
                             -{{ inAndOut.out }}$
                         </p>
@@ -184,11 +194,14 @@ export default {
                             Balance: {{ balance.balance }}$
                         </p>
                     </div>
+                    <div class="px-2 my-auto bg-red-600 rounded" v-else>
+                        No Balance Set
+                    </div>
                 </div>
             </div>
 
             <!-- Regular Incoming -->
-            <div class="mt-8">
+            <div v-if="regularIncomings.length" class="mt-8">
                 <h1
                     class="p-2 px-3 mx-auto text-3xl text-center text-gray-300 border border-gray-400 rounded bg-dark w-fit"
                 >
@@ -209,9 +222,15 @@ export default {
                     </div>
                 </div>
             </div>
+            <div
+                v-else
+                class="px-2 py-1 my-auto mt-8 text-lg font-bold text-center bg-red-600 rounded"
+            >
+                No Incoming payments
+            </div>
 
             <!-- Regular Outgoing -->
-            <div class="mt-8">
+            <div v-if="regularPayments.length" class="mt-8">
                 <h1
                     class="p-2 px-3 mx-auto text-3xl text-center text-gray-300 border border-gray-400 rounded bg-dark w-fit"
                 >
@@ -231,6 +250,12 @@ export default {
                         />
                     </div>
                 </div>
+            </div>
+            <div
+                v-else
+                class="px-2 py-1 my-auto mt-8 text-lg font-bold text-center bg-red-600 rounded"
+            >
+                No Incoming payments
             </div>
         </div>
         <div class="fixed bottom-0 right-0 flex flex-col p-1 gap-y-1">
@@ -255,7 +280,7 @@ export default {
             <PrimaryButton
                 :icon="faBullseye"
                 class="bg-yellow-600 hover:bg-yellow-700"
-                >Add goal</PrimaryButton
+                ><a :href="route('createGoal')">Add Goal</a></PrimaryButton
             >
         </div>
         <AddIncoming :show="this.showCreateIncoming"></AddIncoming>

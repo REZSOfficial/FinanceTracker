@@ -76,7 +76,7 @@ class HomeController extends Controller
     {
         $payments = Payment::getPaymentsByUserId(Auth::user()->id);
         $incomings = Incoming::getIncomingByUserId(Auth::user()->id);
-        return view('components.payments.payments', ['payments' => $payments, 'incomings' => $incomings]);
+        return Inertia::render('Payments/Show', ['outgoings' => $payments, 'incomings' => $incomings]);
     }
 
     public function profile()

@@ -11,12 +11,13 @@ use App\Models\Payment;
 use App\Models\Incoming;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class GoalController extends Controller
 {
     public function create()
     {
-        return view('goals.creategoal');
+        return Inertia::render('Goals/Create');
     }
 
     public function save(Request $request)
@@ -26,6 +27,8 @@ class GoalController extends Controller
             'price' => 'required|numeric',
             'date' => 'required|date',
         ]);
+
+
 
         Goal::create([
             'user_id' => Auth()->id(),
@@ -43,39 +46,9 @@ class GoalController extends Controller
     public function show()
     {
         $goals = Goal::where('user_id', Auth::user()->id)->get();
-        $data = DataController::getDataByUserId(Auth::user()->id);
-
-        $regularPayments = Payment::getRegularPaymentsByUserId(Auth::user()->id);
-
-        $regularIncomings = Incoming::getRegularIncomingByUserId(Auth::user()->id);
-
-        $savings = Saving::where('user_id', Auth::user()->id)->get();
-        //Bejövő fizetésekből visszamaradó hónapok kiszámítása
-        $monthsLeft = [];
-        //Hátralévő hónapok Carbonnal
-        $currentDate = Carbon::now();
-        foreach ($regularIncomings as $rI) {
-            $dbDate = Carbon::parse($rI->created_at);
-            $monthsDifference = $currentDate->diffInMonths($dbDate);
-            array_push($monthsLeft,  ["regularIncoming" => $rI, "monthsDiff" => $monthsDifference]);
-        }
-
-        //Kimenő fizetésekből visszamaradó hónapok kiszámítása
-        $paymentMonthsLeft = [];
-        //Hátralévő hónapok Carbonnal
-        $currentDate = Carbon::now();
-        foreach ($regularPayments as $rP) {
-            $dbDate = Carbon::parse($rP->created_at);
-            $monthsDifference = $currentDate->diffInMonths($dbDate);
-            array_push($paymentMonthsLeft,  ["regularPayment" => $rP, "monthsDiff" => $monthsDifference]);
-        }
-
-
-        $balance = Balance::getBalanceByUserId(Auth::user()->id);
-
         $prompt = GoalController::generatePrompt();
 
-        return view('goals.show', [
+        return Inertia::render('Goals/Show', [
             'prompt' => $prompt,
             'goals' => $goals,
         ]);

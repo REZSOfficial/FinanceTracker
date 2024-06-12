@@ -60,6 +60,18 @@ const logout = () => {
                                 >
                                     Dashboard
                                 </NavLink>
+                                <NavLink
+                                    :href="route('payments')"
+                                    :active="route().current('payments')"
+                                >
+                                    Payments
+                                </NavLink>
+                                <NavLink
+                                    :href="route('viewGoals')"
+                                    :active="route().current('viewGoals')"
+                                >
+                                    Goals
+                                </NavLink>
                             </div>
                         </div>
 
@@ -348,6 +360,18 @@ const logout = () => {
                             :active="route().current('dashboard')"
                         >
                             Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('payments')"
+                            :active="route().current('payments')"
+                        >
+                            Payments
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('viewGoals')"
+                            :active="route().current('viewGoals')"
+                        >
+                            Goals
                         </ResponsiveNavLink>
                     </div>
 
