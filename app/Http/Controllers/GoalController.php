@@ -28,8 +28,6 @@ class GoalController extends Controller
             'date' => 'required|date',
         ]);
 
-
-
         Goal::create([
             'user_id' => Auth()->id(),
             'title' => $request->title,
@@ -38,9 +36,7 @@ class GoalController extends Controller
             'description' => $request->description,
         ]);
 
-        session()->flash('success', 'Goal saved successfully.');
-
-        return redirect()->back();
+        return back();
     }
 
     public function show()

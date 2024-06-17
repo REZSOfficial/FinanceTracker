@@ -224,7 +224,7 @@ export default {
             </div>
             <div
                 v-else
-                class="px-2 py-1 my-auto mt-8 text-lg font-bold text-center bg-red-600 rounded"
+                class="px-2 py-1 my-auto mt-8 text-lg font-bold text-center text-white bg-red-600 rounded"
             >
                 No Incoming payments
             </div>
@@ -253,7 +253,7 @@ export default {
             </div>
             <div
                 v-else
-                class="px-2 py-1 my-auto mt-8 text-lg font-bold text-center bg-red-600 rounded"
+                class="px-2 py-1 my-auto mt-8 text-lg font-bold text-center text-white bg-red-600 rounded"
             >
                 No Incoming payments
             </div>

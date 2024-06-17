@@ -16,7 +16,7 @@ const form = useForm({
         <div class="py-10 mx-auto text-white max-w-7xl sm:px-6 lg:px-8">
             <form @submit.prevent="form.post(route('saveGoal'))">
                 <div>
-                    <label for="title" class="text-white">Title</label>
+                    <label for="title">Title</label>
                     <input
                         type="text"
                         class="w-full border-0 rounded bg-dark"
@@ -24,19 +24,20 @@ const form = useForm({
                     />
                 </div>
                 <div>
-                    <label for="title" class="text-white">Price</label>
+                    <label for="title">Price</label>
                     <input
                         type="number"
                         class="w-full border-0 rounded bg-dark"
                         v-model="form.price"
                     />
                 </div>
+
                 <div>
-                    <label for="title" class="text-white">Date</label>
+                    <label for="date">Date</label>
                     <input
-                        type="date"
-                        class="w-full border-0 rounded bg-dark"
                         v-model="form.date"
+                        class="w-full border-0 rounded bg-dark custom-date"
+                        type="date"
                     />
                 </div>
 

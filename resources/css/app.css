@@ -9,7 +9,7 @@
     --bg: #F0ECE5;
     --linear-bg: url('../images/stacked-waves-haikei.svg');
     --footer-bg: url('../images/layered-waves-haikei.svg');
-  }
+}
 
 [x-cloak] {
     display: none;
@@ -24,11 +24,17 @@
 
 .glass{
     background: rgba(255, 255, 255, 0.13);
-    border: 1px solid rgba(255, 255, 255, 0.438);
-    backdrop-filter: blur(2px);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(2px);
 }
 
 input{
     background-color: var(--light);
+}
+
+.custom-calendar .p-calendar {
+    border: 2px solid #4B5563; /* Custom border color */
+    border-radius: 8px ; /* Custom border radius */
+    background-color: #f9fafb; /* Custom background color */
+    color: black !important;
 }
