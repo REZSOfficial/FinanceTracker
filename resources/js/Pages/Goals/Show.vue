@@ -1,19 +1,19 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import { useForm } from "@inertiajs/vue3";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import Accordion from "@/Pages/Goals/Partials/Accordion.vue";
 import { ref } from "vue";
+import axios from "axios";
+import convertGeneratedRespose from "../../Utils/convertGeneratedResponse";
 const props = defineProps({
     goals: Object,
 });
 
-const form = useForm({
-    date: "",
-});
-
 const openAccordionId = ref(null);
+const loading = ref(false);
+const generatedResponse = ref(null);
 
 const toggleAccordion = (goalId) => {
     if (openAccordionId.value === goalId) {
@@ -21,6 +21,23 @@ const toggleAccordion = (goalId) => {
     } else {
         openAccordionId.value = goalId;
     }
+};
+
+const handleSuggestion = (goalId) => {
+    loading.value = true;
+    generatedResponse.value = null;
+    axios
+        .post(route("generateResponse"), {
+            text: "Give me financial advice.",
+        })
+        .then((response) => {
+            generatedResponse.value = convertGeneratedRespose(
+                response.data.response
+            );
+        })
+        .then(() => {
+            loading.value = false;
+        });
 };
 </script>
 
@@ -52,9 +69,20 @@ const toggleAccordion = (goalId) => {
                                 >{{ goal.price }}$</span
                             >
                         </p>
+                        <PrimaryButton
+                            @click.prevent="handleSuggestion(goal.id)"
+                            class="mt-1 text-xs bg-green-600"
+                            >Get Suggestion</PrimaryButton
+                        >
                     </div>
                 </Accordion>
             </div>
+            <p v-if="loading">Loading...</p>
+            <p
+                class="text-green-600 text-md"
+                v-if="generatedResponse"
+                v-html="generatedResponse"
+            ></p>
         </div>
     </AppLayout>
 </template>

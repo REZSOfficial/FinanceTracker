@@ -53,5 +53,5 @@ Route::middleware([
     Route::post('/incoming/create', [IncomingController::class, 'create'])->name('createIncoming');
 
     // Ai response to goal recommendation
-    Route::post('/generate-content', [GoalController::class, 'generateResponse']);
+    Route::post('/generate-content', [GoalController::class, 'generateResponse'])->name('generateResponse');
 });
