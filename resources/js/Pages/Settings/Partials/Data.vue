@@ -23,99 +23,111 @@ const dataForm = useForm({
         @submit.prevent="dataForm.post(route('settings.update'))"
         class="flex flex-col w-5/6 mx-auto gap-y-6"
     >
-        <div class="flex gap-x-2">
+        <div class="flex flex-col sm:flex-row gap-x-2">
             <FontAwesomeSwitch :type="'food_drink'"></FontAwesomeSwitch>
             <div class="w-full">
                 <label for="food_drink">Food and Drink</label>
-                <input
-                    id="food_drink"
-                    type="number"
-                    class="w-full border-0 rounded bg-dark"
-                    name="food_drink"
-                    v-model="dataForm.food_drink"
-                />
+                <div class="flex gap-x-2">
+                    <input
+                        id="food_drink"
+                        type="number"
+                        class="w-full border-0 rounded bg-dark"
+                        name="food_drink"
+                        v-model="dataForm.food_drink"
+                    />
+                    <p class="mt-auto text-4xl text-green-600">$</p>
+                </div>
             </div>
-            <p class="mt-auto text-4xl text-green-600">$</p>
         </div>
-        <div class="flex gap-x-2">
+        <div class="flex flex-col gap-x-2 sm:flex-row">
             <FontAwesomeSwitch :type="'housing'"></FontAwesomeSwitch>
             <div class="w-full">
                 <label for="housing">Housing</label>
-                <input
-                    id="housing"
-                    type="number"
-                    class="w-full border-0 rounded bg-dark"
-                    name="housing"
-                    v-model="dataForm.housing"
-                />
+                <div class="flex gap-x-2">
+                    <input
+                        id="housing"
+                        type="number"
+                        class="w-full border-0 rounded bg-dark"
+                        name="housing"
+                        v-model="dataForm.housing"
+                    />
+                    <p class="mt-auto text-4xl text-green-600">$</p>
+                </div>
             </div>
-            <p class="mt-auto text-4xl text-green-600">$</p>
         </div>
-        <div class="flex gap-x-2">
+        <div class="flex flex-col gap-x-2 sm:flex-row">
             <FontAwesomeSwitch :type="'transportation'"></FontAwesomeSwitch>
             <div class="w-full">
                 <label for="transportation">Transportation</label>
-                <input
-                    id="transportation"
-                    type="number"
-                    class="w-full border-0 rounded bg-dark"
-                    name="transportation"
-                    v-model="dataForm.transportation"
-                />
+                <div class="flex gap-x-2">
+                    <input
+                        id="transportation"
+                        type="number"
+                        class="w-full border-0 rounded bg-dark"
+                        name="transportation"
+                        v-model="dataForm.transportation"
+                    />
+                    <p class="mt-auto text-4xl text-green-600">$</p>
+                </div>
             </div>
-            <p class="mt-auto text-4xl text-green-600">$</p>
         </div>
-        <div class="flex gap-x-2">
+        <div class="flex flex-col gap-x-2 sm:flex-row">
             <FontAwesomeSwitch :type="'healthcare'"></FontAwesomeSwitch>
             <div class="w-full">
                 <label for="healthcare">Healthcare</label>
-                <input
-                    id="healthcare"
-                    type="number"
-                    class="w-full border-0 rounded bg-dark"
-                    name="healthcare"
-                    v-model="dataForm.healthcare"
-                />
+                <div class="flex gap-x-2">
+                    <input
+                        id="healthcare"
+                        type="number"
+                        class="w-full border-0 rounded bg-dark"
+                        name="healthcare"
+                        v-model="dataForm.healthcare"
+                    />
+                    <p class="mt-auto text-4xl text-green-600">$</p>
+                </div>
             </div>
-            <p class="mt-auto text-4xl text-green-600">$</p>
         </div>
-        <div class="flex gap-x-2">
+        <div class="flex flex-col gap-x-2 sm:flex-row">
             <FontAwesomeSwitch :type="'entertainment'"></FontAwesomeSwitch>
             <div class="w-full">
                 <label for="entertainment">Entertainment</label>
-                <input
-                    id="entertainment"
-                    type="number"
-                    class="w-full border-0 rounded bg-dark"
-                    name="entertainment"
-                    v-model="dataForm.entertainment"
-                />
+                <div class="flex gap-x-2">
+                    <input
+                        id="entertainment"
+                        type="number"
+                        class="w-full border-0 rounded bg-dark"
+                        name="entertainment"
+                        v-model="dataForm.entertainment"
+                    />
+                    <p class="mt-auto text-4xl text-green-600">$</p>
+                </div>
             </div>
-            <p class="mt-auto text-4xl text-green-600">$</p>
         </div>
-        <div class="flex gap-x-2">
+        <div class="flex flex-col gap-x-2 sm:flex-row">
             <FontAwesomeSwitch :type="'other'"></FontAwesomeSwitch>
             <div class="w-full">
                 <label for="other">Other</label>
-                <input
-                    id="other"
-                    type="number"
-                    class="w-full border-0 rounded bg-dark"
-                    name="other"
-                    v-model="dataForm.other"
-                />
+                <div class="flex gap-x-2">
+                    <input
+                        id="other"
+                        type="number"
+                        class="w-full border-0 rounded bg-dark"
+                        name="other"
+                        v-model="dataForm.other"
+                    />
+                    <p class="mt-auto text-4xl text-green-600">$</p>
+                </div>
             </div>
-            <p class="mt-auto text-4xl text-green-600">$</p>
         </div>
         <div class="flex flex-row my-auto">
             <ActionMessage
-                class="w-5/6 my-auto text-center"
+                class="w-4/6 my-auto text-center"
                 :on="dataForm.recentlySuccessful"
                 >Saved.</ActionMessage
             >
             <PrimaryButton
                 type="submit"
-                class="w-1/6 bg-green-600 hover:bg-green-700"
+                class="w-4/6 bg-green-600 sm:w-2/6 hover:bg-green-700"
                 >Save</PrimaryButton
             >
         </div>

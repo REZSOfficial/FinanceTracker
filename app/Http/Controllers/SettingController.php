@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Data;
 use Inertia\Inertia;
+use App\Models\Balance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,6 +43,24 @@ class SettingController extends Controller
             ]
         );
 
+        return redirect()->back();
+    }
+
+    public function updateBalance(Request $request)
+    {
+        $request->validate([
+            'balance' => 'integer',
+        ]);
+
+
+        Balance::updateOrCreate(
+            [
+                'user_id' => Auth::user()->id
+            ],
+            [
+                'balance' => $request['balance'],
+            ]
+        );
         return redirect()->back();
     }
 }

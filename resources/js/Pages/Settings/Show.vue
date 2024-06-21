@@ -16,19 +16,48 @@ const props = defineProps({
         <div
             class="flex flex-col py-10 mx-auto mt-12 rounded-lg sm:flex-row max-w-7xl sm:px-6 lg:px-8 bg-light text-lighter drop-shadow"
         >
-            <div class="w-1/6 mx-auto mb-12">
-                <p @click="page = 'balance'" class="cursor-pointer">Balance</p>
-                <p @click="page = 'data'" class="cursor-pointer">Data</p>
-                <p @click="page = 'preferences'" class="cursor-pointer">
+            <div
+                class="flex flex-col w-full mx-auto mb-12 sm:me-3 sm:w-1/6 gap-y-3"
+            >
+                <p
+                    :class="page === 'balance' ? 'glass' : ''"
+                    @click="page = 'balance'"
+                    class="p-2 px-3 duration-100 rounded cursor-pointer hover:bg-gray-700"
+                >
+                    Balance
+                </p>
+                <p
+                    :class="page === 'data' ? 'glass' : ''"
+                    @click="page = 'data'"
+                    class="p-2 px-3 duration-100 rounded cursor-pointer hover:glass hover:bg-gray-700"
+                >
+                    Data
+                </p>
+                <p
+                    :class="page === 'preferences' ? 'glass' : ''"
+                    @click="page = 'preferences'"
+                    class="p-2 px-3 duration-100 rounded cursor-pointer hover:glass hover:bg-gray-700"
+                >
                     Preferences
                 </p>
             </div>
-            <Data
-                v-if="page === 'data'"
-                :data="props.data ? props.data : null"
-            ></Data>
-
-            <Balance v-if="page === 'balance'"></Balance>
+            <Transition
+                enter-active-class="transition ease-out duration-400"
+                enter-from-class="transform scale-50 opacity-0"
+                enter-to-class="transform scale-100 opacity-100"
+            >
+                <Data
+                    v-if="page === 'data'"
+                    :data="props.data ? props.data : null"
+                ></Data>
+            </Transition>
+            <Transition
+                enter-active-class="transition ease-out duration-400"
+                enter-from-class="transform scale-50 opacity-0"
+                enter-to-class="transform scale-100 opacity-100"
+            >
+                <Balance v-if="page === 'balance'"></Balance>
+            </Transition>
         </div>
     </AppLayout>
 </template>
