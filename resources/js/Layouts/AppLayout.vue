@@ -136,6 +136,12 @@ const logout = () => {
                                         </div>
 
                                         <DropdownLink
+                                            :href="route('settings.show')"
+                                        >
+                                            Settings
+                                        </DropdownLink>
+
+                                        <DropdownLink
                                             :href="route('profile.show')"
                                         >
                                             Profile
@@ -267,6 +273,13 @@ const logout = () => {
                         </div>
 
                         <div class="mt-3 space-y-1">
+                            <ResponsiveNavLink
+                                :href="route('settings.show')"
+                                :active="route().current('settings.show')"
+                            >
+                                Settings
+                            </ResponsiveNavLink>
+
                             <ResponsiveNavLink
                                 :href="route('profile.show')"
                                 :active="route().current('profile.show')"

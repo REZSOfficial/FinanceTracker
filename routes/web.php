@@ -11,6 +11,7 @@ use App\Http\Controllers\BalanceController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\IncomingController;
+use App\Http\Controllers\SettingController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -27,9 +28,10 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
-    Route::post('/savings/update/{id}', [SavingController::class, 'update'])->name('updateSavings');
-    Route::post('/data/update/{id}', [DataController::class, 'update'])->name('updateData');
-    Route::get('/profile/{id}', [HomeController::class, 'profile'])->name('profile');
+
+    //Settings
+    Route::get('/settings', [SettingController::class, 'show'])->name('settings.show');
+    Route::post('/settings/update', [SettingController::class, 'update'])->name('settings.update');
 
     //Create or view payments
     Route::get('/payments', [HomeController::class, 'payments'])->name('payments');

@@ -161,7 +161,9 @@ export default {
                         <canvas id="avgmonthly"></canvas>
                     </div>
                     <div class="px-2 my-auto bg-red-600 rounded" v-else>
-                        No Data Set
+                        <a class="underline" :href="route('settings.show')"
+                            >No Data Set</a
+                        >
                     </div>
                     <h1 class="p-2 my-auto text-xl rounded glass">
                         Avarage Monthly Spendings
@@ -195,7 +197,9 @@ export default {
                         </p>
                     </div>
                     <div class="px-2 my-auto bg-red-600 rounded" v-else>
-                        No Balance Set
+                        <a class="underline" :href="route('settings.show')"
+                            >No Balance Set</a
+                        >
                     </div>
                 </div>
             </div>
