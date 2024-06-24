@@ -3,6 +3,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import Data from "./Partials/Data.vue";
 import Balance from "./Partials/Balance.vue";
 import { ref } from "vue";
+import Preferences from "./Partials/Preferences.vue";
 
 const page = ref("data");
 
@@ -20,19 +21,20 @@ const props = defineProps({
                 class="flex flex-col w-full mx-auto mb-12 sm:me-3 sm:w-1/6 gap-y-3"
             >
                 <p
-                    :class="page === 'balance' ? 'glass' : ''"
-                    @click="page = 'balance'"
-                    class="p-2 px-3 duration-100 rounded cursor-pointer hover:bg-gray-700"
-                >
-                    Balance
-                </p>
-                <p
                     :class="page === 'data' ? 'glass' : ''"
                     @click="page = 'data'"
                     class="p-2 px-3 duration-100 rounded cursor-pointer hover:glass hover:bg-gray-700"
                 >
                     Data
                 </p>
+                <p
+                    :class="page === 'balance' ? 'glass' : ''"
+                    @click="page = 'balance'"
+                    class="p-2 px-3 duration-100 rounded cursor-pointer hover:bg-gray-700"
+                >
+                    Balance
+                </p>
+
                 <p
                     :class="page === 'preferences' ? 'glass' : ''"
                     @click="page = 'preferences'"
@@ -57,6 +59,13 @@ const props = defineProps({
                 enter-to-class="transform scale-100 opacity-100"
             >
                 <Balance v-if="page === 'balance'"></Balance>
+            </Transition>
+            <Transition
+                enter-active-class="transition ease-out duration-400"
+                enter-from-class="transform scale-50 opacity-0"
+                enter-to-class="transform scale-100 opacity-100"
+            >
+                <Preferences v-if="page === 'preferences'"></Preferences>
             </Transition>
         </div>
     </AppLayout>

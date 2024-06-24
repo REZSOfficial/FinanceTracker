@@ -7,6 +7,8 @@ import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 defineProps({
     title: String,
@@ -107,8 +109,11 @@ const logout = () => {
                                                 type="button"
                                                 class="inline-flex items-center px-3 py-2 font-medium leading-4 transition duration-150 ease-in-out border border-transparent rounded-md text-md hover:bg-dark text-lighter focus:outline-none focus:bg-dark active:bg-dark"
                                             >
+                                                <FontAwesomeIcon
+                                                    class="p-2 px-3 bg-white rounded-full me-2 text-lighter"
+                                                    :icon="faUser"
+                                                ></FontAwesomeIcon>
                                                 {{ $page.props.auth.user.name }}
-
                                                 <svg
                                                     class="ms-2 -me-0.5 h-4 w-4"
                                                     xmlns="http://www.w3.org/2000/svg"
