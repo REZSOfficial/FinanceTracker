@@ -7,7 +7,7 @@
 
     <title inertia>{{ config('app.name', 'Finance') }}</title>
 
-    <link rel="icon" href="{{ asset('/images/logo.png') }}">
+    <link rel="icon" href="/Images/logo.png">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
