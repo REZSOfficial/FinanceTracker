@@ -4,6 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Goal;
+use App\Models\Saving;
+use App\Models\Balance;
+use App\Models\Preference;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
@@ -79,5 +82,10 @@ class User extends Authenticatable
     public function savings(): HasOne
     {
         return $this->hasOne(Saving::class, 'user_id');
+    }
+
+    public function preferences(): HasOne
+    {
+        return $this->hasOne(Preference::class, 'user_id');
     }
 }

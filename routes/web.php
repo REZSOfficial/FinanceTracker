@@ -33,6 +33,7 @@ Route::middleware([
     Route::get('/settings', [SettingController::class, 'show'])->name('settings.show');
     Route::post('/settings/update', [SettingController::class, 'update'])->name('settings.update');
     Route::post('/settings/updatebalance', [SettingController::class, 'updateBalance'])->name('balance.update');
+    Route::post('/settings/updatepreferences', [SettingController::class, 'updatePreferences'])->name('preferences.update');
 
     //Create or view payments
     Route::get('/payments', [HomeController::class, 'payments'])->name('payments');

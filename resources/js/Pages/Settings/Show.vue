@@ -9,6 +9,8 @@ const page = ref("data");
 
 const props = defineProps({
     data: Object,
+    balance: Object,
+    preferences: Object,
 });
 </script>
 
@@ -58,14 +60,20 @@ const props = defineProps({
                 enter-from-class="transform scale-50 opacity-0"
                 enter-to-class="transform scale-100 opacity-100"
             >
-                <Balance v-if="page === 'balance'"></Balance>
+                <Balance
+                    :balance="props.balance ? props.balance.balance : null"
+                    v-if="page === 'balance'"
+                ></Balance>
             </Transition>
             <Transition
                 enter-active-class="transition ease-out duration-400"
                 enter-from-class="transform scale-50 opacity-0"
                 enter-to-class="transform scale-100 opacity-100"
             >
-                <Preferences v-if="page === 'preferences'"></Preferences>
+                <Preferences
+                    :preferences="props.preferences ? props.preferences : null"
+                    v-if="page === 'preferences'"
+                ></Preferences>
             </Transition>
         </div>
     </AppLayout>

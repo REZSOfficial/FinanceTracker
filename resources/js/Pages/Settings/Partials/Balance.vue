@@ -3,8 +3,12 @@ import { useForm } from "@inertiajs/vue3";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import ActionMessage from "@/Components/ActionMessage.vue";
 
+const props = defineProps({
+    balance: Number,
+});
+
 const balanceForm = useForm({
-    balance: 0,
+    balance: props.balance,
 });
 </script>
 

@@ -1,21 +1,38 @@
 <script>
 import { ref } from "vue";
-import { isInDestructureAssignment } from "vue/compiler-sfc";
-
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import ActionMessage from "@/Components/ActionMessage.vue";
+import axios from "axios";
 export default {
-    setup() {
+    props: {
+        preferences: Object,
+    },
+    setup(props) {
+        const succ = ref(false);
         const items = ref([
-            { id: 0, title: "Food and Drink", position: 0 },
-            { id: 1, title: "Housing", position: 1 },
-            { id: 2, title: "Transportation", position: 2 },
-            { id: 3, title: "Healthcare", position: 3 },
-            { id: 4, title: "Entertainment", position: 4 },
-            { id: 5, title: "Other", position: 5 },
+            {
+                id: 0,
+                title: "Food and Drink",
+                position: props.preferences.food_and_drink,
+            },
+            { id: 1, title: "Housing", position: props.preferences.housing },
+            {
+                id: 2,
+                title: "Transportation",
+                position: props.preferences.transportation,
+            },
+            {
+                id: 3,
+                title: "Healthcare",
+                position: props.preferences.healthcare,
+            },
+            {
+                id: 4,
+                title: "Entertainment",
+                position: props.preferences.entertainment,
+            },
+            { id: 5, title: "Other", position: props.preferences.other },
         ]);
-
-        const getPosition = (position) => {
-            return items.value.filter((item) => item.position == position);
-        };
 
         const startDrag = (event, item) => {
             event.dataTransfer.dropEffect = "move";
@@ -31,10 +48,32 @@ export default {
             );
             currentItem.position = item.position;
             item.position = position;
+            items.value = [...items.value];
         };
 
-        return { items, getPosition, startDrag, onDrop };
+        const save = () => {
+            axios
+                .post(route("preferences.update"), {
+                    food_and_drink: items.value.find((item) => item.id == 0)
+                        .position,
+                    housing: items.value.find((item) => item.id == 1).position,
+                    transportation: items.value.find((item) => item.id == 2)
+                        .position,
+                    healthcare: items.value.find((item) => item.id == 3)
+                        .position,
+                    entertainment: items.value.find((item) => item.id == 4)
+                        .position,
+                    other: items.value.find((item) => item.id == 5).position,
+                })
+                .then(() => {
+                    succ.value = true;
+                    setTimeout(() => (succ.value = false), 1000);
+                });
+        };
+
+        return { items, succ, startDrag, onDrop, save };
     },
+    components: { PrimaryButton, ActionMessage },
 };
 </script>
 
@@ -53,8 +92,18 @@ export default {
                 @dragover.prevent
                 class="p-2 font-bold duration-100 rounded text-lighter bg-dark hover:cursor-move hover:bg-lighter hover:text-dark"
             >
-                {{ item.position + 1 }}. {{ item.title }}
+                {{ item.position }}. {{ item.title }}
             </div>
+        </div>
+        <div class="flex flex-row my-auto">
+            <ActionMessage class="w-4/6 my-auto text-center" :on="succ"
+                >Saved.</ActionMessage
+            >
+            <PrimaryButton
+                @click.prevent="save"
+                class="w-4/6 bg-green-600 sm:w-2/6 hover:bg-green-700"
+                >Save</PrimaryButton
+            >
         </div>
     </div>
 </template>
