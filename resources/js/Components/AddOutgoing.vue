@@ -1,6 +1,11 @@
 <script setup>
 import PrimaryButton from "./PrimaryButton.vue";
 import { useForm } from "@inertiajs/vue3";
+import { ref } from "vue";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
+
+let is_regular = ref(false);
 
 const props = defineProps({
     show: {
@@ -39,7 +44,7 @@ const submitForm = () => {
         <div
             v-show="show"
             id="incomingform"
-            class="fixed z-50 w-1/2 p-2 py-4 text-white -translate-x-1/2 -translate-y-1/2 border border-gray-400 rounded-lg drop-shadow-xl bg-light top-1/2 left-1/2"
+            class="fixed z-50 w-1/2 p-2 py-4 text-white -translate-x-1/2 -translate-y-1/2 border border-gray-400 rounded-lg bg-light drop-shadow-xl top-1/2 left-1/2"
         >
             <div class="text-red">{{ errors }}</div>
             <form
@@ -54,7 +59,7 @@ const submitForm = () => {
                 <div class="flex flex-col w-1/2 mx-auto gap-y-2">
                     <div>
                         <label for="title">Title</label>
-                        <div class="">
+                        <div>
                             <input
                                 v-model="form.title"
                                 id="out-title"
@@ -68,7 +73,7 @@ const submitForm = () => {
 
                     <div>
                         <label for="amount">Amount</label>
-                        <div class="">
+                        <div>
                             <input
                                 v-model="form.amount"
                                 id="out-amount"
@@ -82,12 +87,13 @@ const submitForm = () => {
 
                     <div>
                         <label for="regular">Regular</label>
-                        <div class="">
+                        <div>
                             <select
                                 v-model="form.regular"
                                 id="out-regular"
                                 class="w-full border-0 rounded bg-dark"
                                 name="regular"
+                                @change="is_regular = !is_regular"
                             >
                                 <option value="1">Yes</option>
                                 <option value="0">No</option>
@@ -98,18 +104,26 @@ const submitForm = () => {
 
                     <div>
                         <label for="period"
-                            >Period<i
-                                id="out-lock"
-                                class="hidden fa-solid fa-lock ms-1 text-danger"
-                            ></i
+                            >Period
+                            <FontAwesomeIcon
+                                v-if="!is_regular"
+                                :icon="faLock"
+                                class="text-red-500"
+                            ></FontAwesomeIcon
                         ></label>
-                        <div class="">
+                        <div>
                             <input
+                                :disabled="!is_regular"
                                 v-model="form.period"
                                 id="out-period"
                                 type="number"
-                                class="w-full border-0 rounded bg-dark"
+                                class="w-full duration-300 border-2 border-transparent rounded bg-dark"
                                 name="period"
+                                :class="
+                                    !is_regular
+                                        ? ' border-red-500 bg-red-900'
+                                        : ''
+                                "
                             />
 
                             <span id="invalid-period"></span>
@@ -118,7 +132,7 @@ const submitForm = () => {
 
                     <div>
                         <label for="type"> Type </label>
-                        <div class="">
+                        <div>
                             <select
                                 v-model="form.type"
                                 id="out-type"
@@ -144,7 +158,7 @@ const submitForm = () => {
 
                     <div class="mb-3 row">
                         <label for="type_of_payment">Payment Type</label>
-                        <div class="">
+                        <div>
                             <select
                                 v-model="form.type_of_payment"
                                 id="out-type-of-payment"
@@ -158,8 +172,8 @@ const submitForm = () => {
                         </div>
                     </div>
 
-                    <div class="">
-                        <div class="">
+                    <div>
+                        <div>
                             <PrimaryButton
                                 type="submit"
                                 class="bg-green-600 hover:bg-green-700"
