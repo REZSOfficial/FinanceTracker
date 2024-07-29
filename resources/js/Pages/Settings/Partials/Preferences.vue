@@ -92,7 +92,7 @@ export default {
                 @dragover.prevent
                 class="p-2 font-bold duration-100 rounded text-lighter bg-dark hover:cursor-move hover:bg-lighter hover:text-dark"
             >
-                {{ item.position }}. {{ item.title }}
+                {{ item.position + 1 }}. {{ item.title }}
             </div>
         </div>
         <div class="flex flex-row my-auto">

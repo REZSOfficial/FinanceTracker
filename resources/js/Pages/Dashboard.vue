@@ -5,28 +5,14 @@ import { Chart } from "chart.js/auto";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faPlus, faMinus, faBullseye } from "@fortawesome/free-solid-svg-icons";
-import AddIncoming from "@/Components/AddIncoming.vue";
-import { ref } from "vue";
-import AddOutgoing from "@/Components/AddOutgoing.vue";
 
 export default {
-    setup() {
-        const showCreateIncoming = ref(false);
-        const showCreateOutgoing = ref(false);
-
-        return {
-            showCreateIncoming,
-            showCreateOutgoing,
-        };
-    },
     components: {
         AppLayout,
         RegularContainer,
         PrimaryButton,
         PrimaryButton,
         FontAwesomeIcon,
-        AddIncoming,
-        AddOutgoing,
     },
     props: {
         monthsLeft: Array,
@@ -93,6 +79,7 @@ export default {
 
         initializeAvgChart() {
             if (this.data) {
+                console.log(this.data);
                 let names = [
                     "Food and drink",
                     "Housing",
@@ -262,32 +249,5 @@ export default {
                 No Incoming payments
             </div>
         </div>
-        <div class="fixed bottom-0 right-0 flex flex-col p-1 gap-y-1">
-            <PrimaryButton
-                :icon="faPlus"
-                id="inBtn"
-                class="bg-green-600 hover:bg-green-700"
-                role="button"
-                @click="this.showCreateIncoming = !this.showCreateIncoming"
-            >
-                Add incoming
-            </PrimaryButton>
-            <PrimaryButton
-                :icon="faMinus"
-                id="outBtn"
-                class="bg-red-600 hover:bg-red-700"
-                role="button"
-                @click="this.showCreateOutgoing = !this.showCreateOutgoing"
-            >
-                Add outgoing
-            </PrimaryButton>
-            <PrimaryButton
-                :icon="faBullseye"
-                class="bg-yellow-600 hover:bg-yellow-700"
-                ><a :href="route('createGoal')">Add Goal</a></PrimaryButton
-            >
-        </div>
-        <AddIncoming :show="this.showCreateIncoming"></AddIncoming>
-        <AddOutgoing :show="this.showCreateOutgoing"></AddOutgoing>
     </AppLayout>
 </template>

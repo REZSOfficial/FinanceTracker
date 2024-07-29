@@ -8,13 +8,24 @@ import DropdownLink from "@/Components/DropdownLink.vue";
 import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+    faUser,
+    faPlus,
+    faMinus,
+    faBullseye,
+} from "@fortawesome/free-solid-svg-icons";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import AddIncoming from "@/Components/AddIncoming.vue";
+import AddOutgoing from "@/Components/AddOutgoing.vue";
 
 defineProps({
     title: String,
 });
 
 const showingNavigationDropdown = ref(false);
+
+const showCreateIncoming = ref(false);
+const showCreateOutgoing = ref(false);
 
 const switchToTeam = (team) => {
     router.put(
@@ -134,11 +145,6 @@ const logout = () => {
 
                                     <template #content>
                                         <!-- Account Management -->
-                                        <div
-                                            class="block px-4 py-2 text-xs text-gray-400"
-                                        >
-                                            Manage Account
-                                        </div>
 
                                         <DropdownLink
                                             :href="route('settings.show')"
@@ -167,7 +173,10 @@ const logout = () => {
                                         <!-- Authentication -->
                                         <form @submit.prevent="logout">
                                             <DropdownLink as="button">
-                                                Log Out
+                                                <span
+                                                    class="font-bold text-red-600"
+                                                    >Log Out</span
+                                                >
                                             </DropdownLink>
                                         </form>
                                     </template>
@@ -303,7 +312,9 @@ const logout = () => {
                             <!-- Authentication -->
                             <form method="POST" @submit.prevent="logout">
                                 <ResponsiveNavLink as="button">
-                                    Log Out
+                                    <span class="font-bold text-red-600"
+                                        >Log Out</span
+                                    >
                                 </ResponsiveNavLink>
                             </form>
 
@@ -407,6 +418,35 @@ const logout = () => {
             <!-- Page Content -->
             <main>
                 <slot />
+                <div class="fixed flex flex-col p-1 right-2 bottom-2 gap-y-2">
+                    <PrimaryButton
+                        :icon="faPlus"
+                        id="inBtn"
+                        class="bg-green-600 hover:bg-green-700"
+                        role="button"
+                        @click="showCreateIncoming = !showCreateIncoming"
+                    >
+                        Add incoming
+                    </PrimaryButton>
+                    <PrimaryButton
+                        :icon="faMinus"
+                        id="outBtn"
+                        class="bg-red-600 hover:bg-red-700"
+                        role="button"
+                        @click="showCreateOutgoing = !showCreateOutgoing"
+                    >
+                        Add outgoing
+                    </PrimaryButton>
+                    <PrimaryButton
+                        :icon="faBullseye"
+                        class="bg-yellow-600 hover:bg-yellow-700"
+                        ><a :href="route('createGoal')"
+                            >Add Goal</a
+                        ></PrimaryButton
+                    >
+                </div>
+                <AddIncoming :show="showCreateIncoming"></AddIncoming>
+                <AddOutgoing :show="showCreateOutgoing"></AddOutgoing>
             </main>
         </div>
     </div>

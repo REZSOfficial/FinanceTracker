@@ -46,7 +46,8 @@ const handleSuggestion = (goalId) => {
         <div
             class="flex flex-col w-2/3 p-3 mx-auto mt-8 text-sm text-gray-200 rounded-lg gap-y-2 glass min-w-fit sm:text-2xl"
         >
-            <div v-for="goal in goals" :key="goal.id">
+            <div v-if="goals.length === 0">No goals yet</div>
+            <div v-else v-for="goal in goals" :key="goal.id">
                 <div
                     class="flex justify-between p-3 border rounded-t-lg border-lighter glass min-w-fit"
                 >

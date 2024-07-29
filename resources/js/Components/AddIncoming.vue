@@ -39,7 +39,7 @@ const submitForm = () => {
         <div
             v-show="show"
             id="incomingform"
-            class="fixed z-50 w-1/2 p-2 py-4 text-white -translate-x-1/2 -translate-y-1/2 border border-gray-400 rounded-lg bg-light top-1/2 left-1/2"
+            class="fixed z-50 w-1/2 p-2 py-4 text-white -translate-x-1/2 -translate-y-1/2 border border-gray-400 rounded-lg bg-light drop-shadow-xl top-1/2 left-1/2"
         >
             <div class="text-red">{{ errors }}</div>
             <form

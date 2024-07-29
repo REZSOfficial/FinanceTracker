@@ -15,7 +15,7 @@ defineProps({
 <template>
     <button
         :type="type"
-        class="px-4 py-2 text-sm font-semibold tracking-widest text-center text-white uppercase transition duration-150 ease-in-out border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+        class="px-4 py-2 text-sm font-semibold tracking-widest text-center text-white uppercase transition duration-150 ease-in-out border border-transparent rounded-md drop-shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
     >
         <div v-if="!icon">
             <slot />
