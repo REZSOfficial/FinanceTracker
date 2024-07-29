@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AvarageController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -55,6 +56,9 @@ Route::middleware([
     //Payments
     Route::post('/outgoing/create', [PaymentController::class, 'create'])->name('createOutgoing');
     Route::post('/incoming/create', [IncomingController::class, 'create'])->name('createIncoming');
+
+    //Avarage
+    Route::get('/averages', [AvarageController::class, 'index'])->name('averages.index');
 
     // Ai response to goal recommendation
     Route::post('/generate-content', [GoalController::class, 'generateResponse'])->name('generateResponse');

@@ -85,6 +85,12 @@ const logout = () => {
                                 >
                                     Goals
                                 </NavLink>
+                                <NavLink
+                                    :href="route('averages.index')"
+                                    :active="route().current('averages.index')"
+                                >
+                                    Average Spendings
+                                </NavLink>
                             </div>
                         </div>
 
@@ -156,16 +162,6 @@ const logout = () => {
                                             :href="route('profile.show')"
                                         >
                                             Profile
-                                        </DropdownLink>
-
-                                        <DropdownLink
-                                            v-if="
-                                                $page.props.jetstream
-                                                    .hasApiFeatures
-                                            "
-                                            :href="route('api-tokens.index')"
-                                        >
-                                            API Tokens
                                         </DropdownLink>
 
                                         <div class="border-t border-gray-200" />
@@ -253,6 +249,12 @@ const logout = () => {
                             :active="route().current('viewGoals')"
                         >
                             Goals
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('averages.index')"
+                            :active="route().current('averages.index')"
+                        >
+                            Average Spendings
                         </ResponsiveNavLink>
                     </div>
 

@@ -140,7 +140,7 @@ export default {
         <div class="flex flex-col w-3/4 mx-auto mt-12">
             <!-- Charts -->
             <div class="flex flex-col gap-2 md:flex-row">
-                <!-- Avarage -->
+                <!-- Average -->
                 <div
                     class="flex justify-between w-full p-4 text-white rounded gap-x-2 md:w-1/2 bg-dark"
                 >
@@ -153,7 +153,7 @@ export default {
                         >
                     </div>
                     <h1 class="p-2 my-auto text-xl rounded glass">
-                        Avarage Monthly Spendings
+                        Average Monthly Spendings
                     </h1>
                 </div>
                 <!-- In and Out -->
