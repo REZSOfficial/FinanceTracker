@@ -16,7 +16,7 @@ const form = useForm({
         <div class="py-10 mx-auto text-white max-w-7xl sm:px-6 lg:px-8">
             <form
                 @submit.prevent="form.post(route('saveGoal'))"
-                class="flex flex-col p-4 border rounded gap-y-4 glass"
+                class="flex flex-col p-4 border rounded gap-y-6 glass"
             >
                 <div>
                     <label for="title">Title</label>
