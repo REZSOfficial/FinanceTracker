@@ -51,7 +51,7 @@ const logout = () => {
         <Banner />
 
         <div class="min-h-screen" id="app-container">
-            <nav class="shadow bg-light">
+            <nav>
                 <!-- Primary Navigation Menu -->
                 <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">

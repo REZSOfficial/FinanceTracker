@@ -3,32 +3,16 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import { onMounted } from "vue";
 import getMonths from "../../Utils/months";
 import Chart from "chart.js/auto";
+
 const props = defineProps({
     averageIncoming: Object,
     averageOutgoing: Object,
 });
 
 onMounted(() => {
+    console.log(props.averageIncoming);
     const avarageChartCanvas = document.getElementById("average");
     const labels = getMonths(12);
-    const averageIncomingAmounts = [];
-    const averageOutgoingAmounts = [];
-
-    for (let i = 1; i < 13; i++) {
-        if (props.averageIncoming[i]) {
-            averageIncomingAmounts.push(props.averageIncoming[i].amount);
-        } else {
-            averageIncomingAmounts.push(0);
-        }
-    }
-
-    for (let i = 1; i < 13; i++) {
-        if (props.averageOutgoing[i]) {
-            averageOutgoingAmounts.push(props.averageOutgoing[i].amount);
-        } else {
-            averageOutgoingAmounts.push(0);
-        }
-    }
 
     const avarageChart = new Chart(avarageChartCanvas, {
         type: "line",
@@ -37,7 +21,7 @@ onMounted(() => {
             datasets: [
                 {
                     label: "Avarage Incoming",
-                    data: averageIncomingAmounts,
+                    data: props.averageIncoming,
                     borderWidth: 1,
                     borderColor: "rgb(0, 153, 51)",
                     backgroundColor: "rgba(0, 153, 51, 0.1)",
@@ -49,7 +33,7 @@ onMounted(() => {
                 },
                 {
                     label: "Avarage Outgoing",
-                    data: averageOutgoingAmounts,
+                    data: props.averageOutgoing,
                     borderWidth: 1,
                     borderColor: "rgb(204, 0, 0)",
                     backgroundColor: "rgba(204, 0, 0, 0.1)",

@@ -28,7 +28,7 @@ const handleSuggestion = (goalId) => {
     generatedResponse.value = null;
     axios
         .post(route("generateResponse"), {
-            text: "Give me financial advice.",
+            goalId: goalId,
         })
         .then((response) => {
             generatedResponse.value = convertGeneratedRespose(
@@ -60,7 +60,7 @@ const handleSuggestion = (goalId) => {
                     ></FontAwesomeIcon>
                 </div>
                 <Accordion :show="openAccordionId === goal.id">
-                    <div class="text-lg">
+                    <div class="flex flex-col text-lg gap-y-4">
                         <p>
                             <strong>Description:</strong> {{ goal.description }}
                         </p>
@@ -70,9 +70,13 @@ const handleSuggestion = (goalId) => {
                                 >{{ goal.price }}$</span
                             >
                         </p>
+                        <p>
+                            <strong>Date: </strong>
+                            <span>{{ goal.date }}</span>
+                        </p>
                         <PrimaryButton
                             @click.prevent="handleSuggestion(goal.id)"
-                            class="mt-1 text-xs bg-green-600"
+                            class="text-xs bg-green-600"
                             >Get Suggestion</PrimaryButton
                         >
                     </div>

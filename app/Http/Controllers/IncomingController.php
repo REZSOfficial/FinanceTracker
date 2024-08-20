@@ -39,10 +39,19 @@ class IncomingController extends Controller
                 'type_of_payment' => $request['type_of_payment']
             ]
         );
+
         $balance = Balance::where('user_id', $user_id)->first();
-        $amount = $balance->balance;
-        $newBalance = $amount + $request['amount'];
-        Balance::where('user_id', $user_id)->update(array('balance' => $newBalance));
+
+        if ($balance == null) {
+            Balance::create([
+                'user_id' => $user_id,
+                'balance' => $request['amount']
+            ]);
+        } else {
+            $amount = $balance->balance;
+            $newBalance = $amount + $request['amount'];
+            Balance::where('user_id', $user_id)->update(array('balance' => $newBalance));
+        }
 
         return back();
     }

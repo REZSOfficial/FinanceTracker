@@ -42,10 +42,8 @@ class GoalController extends Controller
     public function show()
     {
         $goals = Goal::where('user_id', Auth::user()->id)->get();
-        $prompt = GoalController::generatePrompt();
 
         return Inertia::render('Goals/Show', [
-            'prompt' => $prompt,
             'goals' => $goals,
         ]);
     }
@@ -65,16 +63,44 @@ class GoalController extends Controller
 
     public function generateResponse(Request $request)
     {
-        $yourApiKey = getenv('GEMINI_API_KEY');
-        $client = Gemini::client($yourApiKey);
+        $goal = Goal::find($request->input('goalId'));
 
-        $result = $client->geminiPro()->generateContent($request->input('text'));
+        $client = $this->getClient();
+
+        $text = $this->createGeminiText($goal);
+
+        $result = $client->geminiPro()->generateContent($text);
 
         return response()->json(['response' => $result->text()]);
     }
 
-    public static function generatePrompt()
+    public function getClient()
     {
-        return "Give me financial advice.";
+        return Gemini::client(getenv('GEMINI_API_KEY'));
+    }
+
+    public function createGeminiText(Goal $goal)
+    {
+        $allGoals = Goal::where('user_id', Auth::user()->id)->get();
+        $incoming = Incoming::getIncomingByUserId(Auth::user()->id);
+        $payments = Payment::getPaymentsByUserId(Auth::user()->id);
+        $balance = Balance::getBalanceByUserId(Auth::user()->id);
+        $savings = Saving::where('user_id', Auth::user()->id)->first();
+
+        $other_goal_text = "";
+
+        foreach ($allGoals as $g) {
+            if ($g->id != $goal->id) {
+                $other_goal_text = $other_goal_text . $g->title . " - " . $g->price . " - " . $g->date . "\n";
+            }
+        }
+
+        $text = "Hi, i have some financial goals that i want to achieve.
+         The one im asking you about is titled: " . $goal->title . ".
+         The amount i need to save up is: " . $goal->price . "
+         The date i need to achieve this goal is: " . $goal->date . "
+         I also have other goals that i want to achieve (if this is empty then ignore it):" . $other_goal_text;
+
+        return $text;
     }
 }

@@ -5,36 +5,35 @@
 :root {
     --dark: #001220;
     --light: #002233;
-    --ligther: #B6BBC4;
-    --bg: #F0ECE5;
-    --linear-bg: url('../images/stacked-waves-haikei.svg');
-    --footer-bg: url('../images/layered-waves-haikei.svg');
+    --ligther: #b6bbc4;
+    --bg: #f0ece5;
+    --linear-bg: url("../images/stacked-waves-haikei.svg");
+    --footer-bg: url("../images/layered-waves-haikei.svg");
 }
 
 [x-cloak] {
     display: none;
 }
 
-#app-container {
-    background-image: url('../images/Sprinkle.svg');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
+#app-container,
+nav {
+    background-color: #002233;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='100' y1='33' x2='100' y2='-3'%3E%3Cstop offset='0' stop-color='%23000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='1'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='100' y1='135' x2='100' y2='97'%3E%3Cstop offset='0' stop-color='%23000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='%23001e2f' fill-opacity='0.6'%3E%3Crect x='100' width='100' height='100'/%3E%3Crect y='100' width='100' height='100'/%3E%3C/g%3E%3Cg fill-opacity='0.5'%3E%3Cpolygon fill='url(%23a)' points='100 30 0 0 200 0'/%3E%3Cpolygon fill='url(%23b)' points='100 100 0 130 0 100 200 100 200 130'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-.glass{
+.glass {
     background: rgba(255, 255, 255, 0.13);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(2px);
 }
 
-input{
+input {
     background-color: var(--light);
 }
 
 .custom-calendar .p-calendar {
-    border: 2px solid #4B5563; /* Custom border color */
-    border-radius: 8px ; /* Custom border radius */
+    border: 2px solid #4b5563; /* Custom border color */
+    border-radius: 8px; /* Custom border radius */
     background-color: #f9fafb; /* Custom background color */
     color: black !important;
 }

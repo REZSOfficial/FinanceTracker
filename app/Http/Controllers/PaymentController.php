@@ -35,10 +35,20 @@ class PaymentController extends Controller
             ]
         );
 
-        $balance = Balance::where('user_id', Auth::user()->id)->first();
-        $amount = $balance->balance;
-        $newBalance = $amount - $request['amount'];
-        Balance::where('user_id', Auth::user()->id)->update(array('balance' => $newBalance));
+        $user_id = Auth::user()->id;
+
+        $balance = Balance::where('user_id', $user_id)->first();
+
+        if ($balance == null) {
+            Balance::create([
+                'user_id' => $user_id,
+                'balance' => $request['amount']
+            ]);
+        } else {
+            $amount = $balance->balance;
+            $newBalance = $amount - $request['amount'];
+            Balance::where('user_id', $user_id)->update(array('balance' => $newBalance));
+        }
 
         return back();
     }
