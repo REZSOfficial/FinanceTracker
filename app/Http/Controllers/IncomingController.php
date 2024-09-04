@@ -55,4 +55,11 @@ class IncomingController extends Controller
 
         return back();
     }
+
+    public function delete(Incoming $incoming)
+    {
+        $incoming->delete();
+
+        return response()->json(['success' => true]);
+    }
 }

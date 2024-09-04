@@ -2,7 +2,6 @@
 import { ref } from "vue";
 import { Head, Link, router } from "@inertiajs/vue3";
 import ApplicationMark from "@/Components/ApplicationMark.vue";
-import Banner from "@/Components/Banner.vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import NavLink from "@/Components/NavLink.vue";
@@ -48,24 +47,22 @@ const logout = () => {
     <div>
         <Head :title="title" />
 
-        <Banner />
-
         <div class="min-h-screen" id="app-container">
             <nav>
                 <!-- Primary Navigation Menu -->
-                <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                <div class="px-4 mx-auto max-w-7xl sm:px-0 lg:px-2">
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
                             <div class="flex items-center shrink-0">
                                 <Link :href="route('dashboard')">
-                                    <ApplicationMark class="block w-auto h-9" />
+                                    <ApplicationMark class="w-auto" />
                                 </Link>
                             </div>
 
                             <!-- Navigation Links -->
                             <div
-                                class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
+                                class="items-center hidden space-x-4 sm:ms-10 md:flex"
                             >
                                 <NavLink
                                     :href="route('dashboard')"
@@ -89,12 +86,12 @@ const logout = () => {
                                     :href="route('averages.index')"
                                     :active="route().current('averages.index')"
                                 >
-                                    Average Spendings
+                                    Average
                                 </NavLink>
                             </div>
                         </div>
 
-                        <div class="hidden sm:flex sm:items-center sm:ms-6">
+                        <div class="hidden md:flex sm:items-center sm:ms-6">
                             <!-- Settings Dropdown -->
                             <div class="relative ms-3">
                                 <Dropdown align="right" width="48">
@@ -130,7 +127,6 @@ const logout = () => {
                                                     class="p-2 px-3 bg-white rounded-full me-2 text-lighter"
                                                     :icon="faUser"
                                                 ></FontAwesomeIcon>
-                                                {{ $page.props.auth.user.name }}
                                                 <svg
                                                     class="ms-2 -me-0.5 h-4 w-4"
                                                     xmlns="http://www.w3.org/2000/svg"
@@ -181,7 +177,7 @@ const logout = () => {
                         </div>
 
                         <!-- Hamburger -->
-                        <div class="flex items-center -me-2 sm:hidden">
+                        <div class="flex items-center me-2 md:hidden">
                             <button
                                 class="inline-flex items-center justify-center p-2 transition duration-150 ease-in-out rounded-md text-lighter hover:text-lighter hover:bg-dark focus:outline-none focus:bg-dark focus:text-lighter"
                                 @click="
@@ -229,7 +225,7 @@ const logout = () => {
                         block: showingNavigationDropdown,
                         hidden: !showingNavigationDropdown,
                     }"
-                    class="sm:hidden"
+                    class="md:hidden"
                 >
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink
@@ -254,7 +250,7 @@ const logout = () => {
                             :href="route('averages.index')"
                             :active="route().current('averages.index')"
                         >
-                            Average Spendings
+                            Average
                         </ResponsiveNavLink>
                     </div>
 
@@ -277,9 +273,7 @@ const logout = () => {
                             </div>
 
                             <div>
-                                <div
-                                    class="text-base font-medium text-gray-800"
-                                >
+                                <div class="text-base font-medium text-blue">
                                     {{ $page.props.auth.user.name }}
                                 </div>
                                 <div class="text-sm font-medium text-gray-500">
@@ -452,4 +446,17 @@ const logout = () => {
             </main>
         </div>
     </div>
+    <footer class="p-4 pt-[100px]">
+        <div class="flex gap-12 text-lg text-blue">
+            <h1>Finance Manager Application</h1>
+            <h2>Copyright © 2024</h2>
+            <h3>
+                Built with:
+                <span class="text-red-200">[Laravel / </span>
+                <span class="text-red-200">Vue / </span>
+                <span class="text-red-200">Inertia]</span>
+            </h3>
+            <h3>by: Nagy Zsombor Attila</h3>
+        </div>
+    </footer>
 </template>

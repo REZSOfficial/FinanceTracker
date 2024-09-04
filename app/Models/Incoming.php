@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Incoming extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'user_id',
         'title',
@@ -24,7 +27,7 @@ class Incoming extends Model
 
     public static function getRegularIncomingByUserId(String $id)
     {
-        return DB::table('incomings')->where('user_id', $id)->where('regular', 1)->whereNot('period', 0)->get();
+        return Incoming::where('user_id', $id)->where('regular', 1)->whereNot('period', 0)->get();
     }
 
     public static function getAvarage(): array
@@ -48,5 +51,47 @@ class Incoming extends Model
         }, $averageIncoming);
 
         return $averageIncomingArray;
+    }
+
+    public static function getAverageByType(int $month, String $type = null)
+    {
+        // Base SQL query with subquery to ensure no implicit columns are included
+        $query = "
+        SELECT subquery.type, subquery.avg_amount
+        FROM (
+            SELECT type, AVG(amount) as avg_amount
+            FROM incomings
+            WHERE MONTH(created_at) = ?
+        ";
+
+        // Parameters for the query
+        $params = [$month];
+
+        // Append type condition if provided
+        if ($type) {
+            $query .= " AND type = ?";
+            $params[] = $type;
+        }
+
+        // Close subquery and group by type
+        $query .= " GROUP BY type) as subquery";
+
+        // Execute the query with parameters
+        $averageIncoming = DB::select($query, $params);
+
+        if (!$averageIncoming) {
+            return [];
+        }
+
+        return $averageIncoming;
+    }
+
+    public function remainingMonths()
+    {
+        $currentDate = Carbon::now();
+        $dbDate = Carbon::parse($this->created_at);
+        $monthsDifference = $currentDate->diffInMonths($dbDate);
+
+        return max(-$this->period, $monthsDifference);
     }
 }

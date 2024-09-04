@@ -69,6 +69,16 @@ class User extends Authenticatable
         ];
     }
 
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class, 'user_id');
+    }
+
+    public function incomings(): HasMany
+    {
+        return $this->hasMany(Incoming::class, 'user_id');
+    }
+
     public function goals(): HasMany
     {
         return $this->hasMany(Goal::class, 'user_id');

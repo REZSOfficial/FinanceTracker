@@ -21,6 +21,7 @@ export default {
                 dark: "#001220",
                 light: "#002233",
                 lighter: "#B6BBC4",
+                blue: "#648dffe0",
             },
         },
     },

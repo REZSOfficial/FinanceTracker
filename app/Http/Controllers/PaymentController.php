@@ -52,4 +52,9 @@ class PaymentController extends Controller
 
         return back();
     }
+
+    public function delete(Payment $payment)
+    {
+        $payment->delete();
+    }
 }

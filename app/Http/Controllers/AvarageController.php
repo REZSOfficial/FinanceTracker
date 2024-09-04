@@ -2,18 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Incoming;
-use App\Models\Payment;
-use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use Inertia\Inertia;
+use App\Models\Payment;
+use App\Models\Incoming;
+use Illuminate\Http\Request;
 
 class AvarageController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $month = Carbon::now()->month;
+
+        if ($request->has('month')) {
+            $month = intval($request->month);
+
+            $averageIncomingByType = Incoming::getAverageByType($month);
+            $averagePaymentByType = Payment::getAverageByType($month);
+
+            return response()->json([
+                'averageIncomingByType' => $averageIncomingByType,
+                'averageOutgoingByType' => $averagePaymentByType,
+                'currentMonth' => $month
+            ]);
+        }
+
         $averageIncoming = Incoming::getAvarage();
         $averageOutgoing = Payment::getAvarage();
 
-        return Inertia::render('Avarages/Show', ['averageIncoming' => $averageIncoming, 'averageOutgoing' => $averageOutgoing]);
+        $averageIncomingByType = Incoming::getAverageByType($month);
+        $averagePaymentByType = Payment::getAverageByType($month);
+
+        return Inertia::render('Avarages/Show', [
+            'averageIncoming' => $averageIncoming,
+            'averageOutgoing' => $averageOutgoing,
+            'averageIncomingByType' => $averageIncomingByType,
+            'averageOutgoingByType' => $averagePaymentByType,
+            'currentMonth' => $month
+        ]);
     }
 }

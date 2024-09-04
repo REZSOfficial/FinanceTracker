@@ -21,7 +21,7 @@ const props = defineProps({
         :icon="faBurger"
     ></FontAwesomeIcon>
     <FontAwesomeIcon
-        class="p-3 my-auto text-2xl text-black bg-blue-600 rounded-full"
+        class="p-3 my-auto text-2xl text-black bg-yellow-600 rounded-full"
         v-if="payment.type === 'transportation'"
         :icon="faCar"
     ></FontAwesomeIcon>
@@ -36,7 +36,7 @@ const props = defineProps({
         :icon="faNotesMedical"
     ></FontAwesomeIcon>
     <FontAwesomeIcon
-        class="p-3 my-auto text-2xl bg-blue-700 rounded-full"
+        class="p-3 my-auto text-2xl bg-indigo-700 rounded-full"
         v-if="payment.type === 'entertainment'"
         :icon="faGift"
     ></FontAwesomeIcon>

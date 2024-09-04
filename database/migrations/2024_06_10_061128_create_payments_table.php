@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('title');
-            $table->string('amount');
+            $table->integer('amount');
             $table->boolean('regular')->notNull();
             $table->integer('period')->nullable()->default(0);
             $table->string('type');

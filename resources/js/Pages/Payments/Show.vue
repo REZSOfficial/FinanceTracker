@@ -11,10 +11,10 @@ const props = defineProps({
     <AppLayout title="Payments">
         <div class="flex flex-col w-3/4 gap-4 mx-auto mt-12 md:flex-row">
             <div class="w-full">
-                <Payments :type="'outgoing'" :payments="outgoings"></Payments>
+                <Payments type="outgoing" :payments="outgoings"></Payments>
             </div>
             <div class="w-full">
-                <Payments :type="'incoming'" :payments="incomings"></Payments>
+                <Payments type="incoming" :payments="incomings"></Payments>
             </div>
         </div>
     </AppLayout>

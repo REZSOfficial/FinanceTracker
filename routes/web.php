@@ -13,6 +13,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\IncomingController;
 use App\Http\Controllers\SettingController;
+use Gemini\Enums\Role;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -36,7 +37,7 @@ Route::middleware([
     Route::post('/settings/updatebalance', [SettingController::class, 'updateBalance'])->name('balance.update');
     Route::post('/settings/updatepreferences', [SettingController::class, 'updatePreferences'])->name('preferences.update');
 
-    //Create or view payments
+    //Create, delete or view payments
     Route::get('/payments', [HomeController::class, 'payments'])->name('payments');
 
     //Goals
@@ -56,6 +57,8 @@ Route::middleware([
     //Payments
     Route::post('/outgoing/create', [PaymentController::class, 'create'])->name('createOutgoing');
     Route::post('/incoming/create', [IncomingController::class, 'create'])->name('createIncoming');
+    Route::delete('/outgoing/{payment}/delete', [PaymentController::class, 'delete'])->name('deleteOutgoing');
+    Route::delete('/incoming/{incoming}/delete', [IncomingController::class, 'delete'])->name('deleteIncoming');
 
     //Avarage
     Route::get('/averages', [AvarageController::class, 'index'])->name('averages.index');

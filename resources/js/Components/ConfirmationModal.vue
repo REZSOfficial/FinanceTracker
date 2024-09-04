@@ -1,57 +1,76 @@
 <script setup>
-import Modal from './Modal.vue';
-
-const emit = defineEmits(['close']);
-
-defineProps({
-    show: {
-        type: Boolean,
-        default: false,
-    },
-    maxWidth: {
-        type: String,
-        default: '2xl',
-    },
-    closeable: {
-        type: Boolean,
-        default: true,
-    },
+const props = defineProps({
+    show: Boolean,
+    title: String,
+    message: String,
 });
 
-const close = () => {
-    emit('close');
-};
+const emit = defineEmits(["close", "confirm"]);
+
+function close() {
+    emit("close");
+}
+
+function confirm() {
+    emit("confirm");
+}
 </script>
 
 <template>
-    <Modal
-        :show="show"
-        :max-width="maxWidth"
-        :closeable="closeable"
-        @close="close"
+    <div
+        v-if="show"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-75"
     >
-        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <div class="sm:flex sm:items-start">
-                <div class="mx-auto shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                    <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-                    </svg>
-                </div>
-
-                <div class="mt-3 text-center sm:mt-0 sm:ms-4 sm:text-start">
-                    <h3 class="text-lg font-medium text-gray-900">
-                        <slot name="title" />
-                    </h3>
-
-                    <div class="mt-4 text-sm text-gray-600">
-                        <slot name="content" />
-                    </div>
-                </div>
+        <div
+            class="w-full max-w-lg p-6 bg-white rounded-md shadow-lg bounce-animation"
+        >
+            <h2 class="mb-4 text-xl font-semibold text-gray-700">
+                {{ title }}
+            </h2>
+            <p class="mb-6 text-gray-600">{{ message }}</p>
+            <div class="flex justify-end gap-4">
+                <button
+                    @click="close"
+                    class="px-4 py-2 text-white bg-gray-600 rounded hover:bg-gray-700"
+                >
+                    Cancel
+                </button>
+                <button
+                    @click="confirm"
+                    class="px-4 py-2 text-white bg-red-600 rounded hover:bg-red-700"
+                >
+                    Confirm
+                </button>
             </div>
         </div>
-
-        <div class="flex flex-row justify-end px-6 py-4 bg-gray-100 text-end">
-            <slot name="footer" />
-        </div>
-    </Modal>
+    </div>
 </template>
+
+<style scoped>
+@keyframes bounce {
+    0% {
+        transform: translateY(-100%);
+        animation-timing-function: ease-in;
+    }
+    40% {
+        transform: translateY(0);
+        animation-timing-function: ease-out;
+    }
+    60% {
+        transform: translateY(-15%);
+        animation-timing-function: ease-in;
+    }
+    80% {
+        transform: translateY(0);
+        animation-timing-function: ease-out;
+    }
+    100% {
+        transform: translateY(0);
+        animation-timing-function: ease-out;
+    }
+}
+
+.bounce-animation {
+    animation: bounce 0.5s ease-in-out;
+}
+</style>

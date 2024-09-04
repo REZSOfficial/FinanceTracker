@@ -19,32 +19,23 @@ class HomeController extends Controller
         $data = DataController::getDataByUserId(Auth::user()->id);
 
         $payments = Payment::getPaymentsByUserId(Auth::user()->id);
-        $cashPayments = Payment::getPaymentsByUserIdAndType(Auth::user()->id, 'cash');
-        $cardPayments = Payment::getPaymentsByUserIdAndType(Auth::user()->id, 'card');
         $regularPayments = Payment::getRegularPaymentsByUserId(Auth::user()->id);
 
         $incomings = Incoming::getIncomingByUserId(Auth::user()->id);
         $regularIncomings = Incoming::getRegularIncomingByUserId(Auth::user()->id);
 
+        $cashPayments = Payment::getPaymentsByUserIdAndType(Auth::user()->id, 'cash');
+        $cardPayments = Payment::getPaymentsByUserIdAndType(Auth::user()->id, 'card');
+
 
         //Bejövő fizetésekből visszamaradó hónapok kiszámítása
-        $monthsLeft = [];
-        //Hátralévő hónapok Carbonnal
-        $currentDate = Carbon::now();
-        foreach ($regularIncomings as $rI) {
-            $dbDate = Carbon::parse($rI->created_at);
-            $monthsDifference = $currentDate->diffInMonths($dbDate);
-            array_push($monthsLeft,  ["id" => $rI->id, "monthsDiff" => $monthsDifference]);
+        foreach ($regularIncomings as $incoming) {
+            $incoming->remaining_months = $incoming->remainingMonths();
         }
 
         //Kimenő fizetésekből visszamaradó hónapok kiszámítása
-        $paymentMonthsLeft = [];
-        //Hátralévő hónapok Carbonnal
-        $currentDate = Carbon::now();
-        foreach ($regularPayments as $rP) {
-            $dbDate = Carbon::parse($rP->created_at);
-            $monthsDifference = $currentDate->diffInMonths($dbDate);
-            array_push($paymentMonthsLeft,  ["id" => $rP->id, "monthsDiff" => $monthsDifference]);
+        foreach ($regularPayments as $payment) {
+            $payment->remaining_months = $payment->remainingMonths();
         }
 
         $in_and_out = ["in" => 0, "out" => 0];
@@ -58,9 +49,7 @@ class HomeController extends Controller
         $balance = Balance::getBalanceByUserId(Auth::user()->id);
 
         return Inertia::render('Dashboard', [
-            'monthsLeft' => $monthsLeft,
             'regularPayments' => $regularPayments,
-            'paymentsMonthsLeft' => $paymentMonthsLeft,
             'regularIncomings' => $regularIncomings,
             'incomings' => $incomings,
             'payments' => $payments,
@@ -68,7 +57,7 @@ class HomeController extends Controller
             'cashPayments' => $cashPayments,
             'cardPayments' => $cardPayments,
             'inAndOut' => $in_and_out,
-            'balance' => $balance
+            'balance' => $balance,
         ]);
     }
 
