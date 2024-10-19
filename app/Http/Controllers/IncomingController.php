@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IncomingRequest;
 use App\Models\Balance;
 use App\Models\Incoming;
 use Illuminate\Http\Request;
@@ -13,20 +14,8 @@ class IncomingController extends Controller
 
 
 
-    public static function create(Request $request)
+    public static function create(IncomingRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|max:32',
-            'regular' => 'required',
-            'amount' => 'required',
-            'type' => 'required',
-            'type_of_payment' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return back();
-        }
-
         $user_id = Auth::user()->id;
         Incoming::Create(
             [

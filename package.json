@@ -3,6 +3,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
+        "test": "vite --host 192.168.0.100",
         "build": "vite build"
     },
     "devDependencies": {

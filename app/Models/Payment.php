@@ -23,12 +23,7 @@ class Payment extends Model
 
     public static function getPaymentsByUserId(String $id)
     {
-        return DB::table('payments')->where('user_id', $id)->get();
-    }
-
-    public static function getPaymentsByUserIdAndType(String $id, String $type)
-    {
-        return DB::table('payments')->where('user_id', $id)->where('type_of_payment', $type)->get();
+        return DB::table('payments')->where('user_id', $id)->orderBy('created_at', 'desc')->get();
     }
 
     public static function getRegularPaymentsByUserId($id)
@@ -36,7 +31,7 @@ class Payment extends Model
         return Payment::where('user_id', $id)->where('regular', 1)->whereNot('period', 0)->get();
     }
 
-    public static function getAvarage(): array
+    public static function getAverage(): array
     {
         $averageOutgoing = DB::select("
             SELECT 
@@ -92,8 +87,8 @@ class Payment extends Model
     {
         $currentDate = Carbon::now();
         $dbDate = Carbon::parse($this->created_at);
-        $monthsDifference = $currentDate->diffInMonths($dbDate);
+        $monthsDifference = $this->period - $dbDate->diffInMonths($currentDate);
 
-        return max(-$this->period, $monthsDifference);
+        return max($monthsDifference, 0);
     }
 }

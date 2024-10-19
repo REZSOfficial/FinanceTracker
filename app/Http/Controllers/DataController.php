@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DataRequest;
 use Carbon\Carbon;
 use App\Models\Data;
 use App\Models\Payment;
@@ -11,28 +12,9 @@ use Illuminate\Support\Facades\Auth;
 
 class DataController extends Controller
 {
-    static function getDataByUserId($id)
+
+    public function update(DataRequest $request)
     {
-        $data = DB::table('data')->where('user_id', $id)->first();
-
-        if ($data) {
-            return $data;
-        }
-
-        return null;
-    }
-
-    public function update(Request $request)
-    {
-        $request->validate([
-            'food_drink' => 'integer',
-            'housing' => 'integer',
-            'transportation' => 'integer',
-            'healthcare' => 'integer',
-            'entertainment' => 'integer',
-            'other' => 'integer',
-        ]);
-
         Data::updateOrCreate(
             [
                 'user_id' => Auth::user()->id

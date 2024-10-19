@@ -1,9 +1,14 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import RegularContainer from "@/Components/RegularContainer.vue";
+import PaymentModal from "@/Components/PaymentModal.vue";
 import { Chart } from "chart.js/auto";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import {
+    faChevronDown,
+    faChevronUp,
+    faEquals,
+} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { onMounted, ref, Transition } from "vue";
 import ConfirmationModal from "@/Components/ConfirmationModal.vue";
@@ -14,11 +19,12 @@ const props = defineProps({
     incomings: Array,
     payments: Array,
     data: Object,
-    cashPayments: Array,
-    cardPayments: Array,
     inAndOut: Object,
     balance: Object,
 });
+
+const showPaymentModal = ref(false); // To control the visibility
+const selectedPayment = ref(null); // To store the current payment being shown
 
 const regularIncomingsState = ref([...props.regularIncomings]);
 const regularPaymentsState = ref([...props.regularPayments]);
@@ -35,6 +41,11 @@ onMounted(() => {
     initializeChart();
     initializeAvgChart();
 });
+
+function openPaymentModal(payment) {
+    selectedPayment.value = payment; // Store the payment information
+    showPaymentModal.value = true; // Set modal visibility to true
+}
 
 function openDeleteModal(id, type) {
     showDeleteModal.value = true;
@@ -186,13 +197,17 @@ function initializeAvgChart() {
 
 <template>
     <AppLayout title="Dashboard">
+        <PaymentModal
+            class="fixed z-10"
+            v-if="showPaymentModal"
+            :payment="selectedPayment"
+            @close="showPaymentModal = false"
+        />
         <div class="flex flex-col w-full px-1 mx-auto mt-12">
             <!-- Charts -->
-            <div class="flex flex-col gap-2 md:flex-row">
+            <div class="flex flex-col gap-2 sm:px-6 md:flex-row">
                 <!-- Average -->
-                <div
-                    class="flex justify-between w-full p-4 text-white rounded gap-x-2 md:w-1/2 bg-dark"
-                >
+                <div class="stat-container">
                     <div v-if="data" class="w-1/4 my-auto chart-container">
                         <canvas id="avgmonthly"></canvas>
                     </div>
@@ -206,9 +221,7 @@ function initializeAvgChart() {
                     </h1>
                 </div>
                 <!-- In and Out -->
-                <div
-                    class="flex justify-between w-full p-4 text-white rounded gap-x-2 md:w-1/2 bg-dark"
-                >
+                <div class="stat-container">
                     <div class="w-1/4 my-auto chart-container">
                         <canvas id="this-month"></canvas>
                     </div>
@@ -217,19 +230,34 @@ function initializeAvgChart() {
                     </h1>
                     <div
                         v-if="balance"
-                        class="flex flex-col font-bold gap-y-1 text-dark"
+                        class="flex flex-col justify-between text-lg font-bold text-white"
                     >
-                        <p class="p-1 px-2 bg-red-600 rounded">
-                            -{{ inAndOut.out }}$
+                        <p>
+                            <FontAwesomeIcon
+                                class="text-red-600 me-2"
+                                :icon="faChevronDown"
+                            />{{ inAndOut.out
+                            }}<span class="text-green-600">$</span>
                         </p>
-                        <p class="p-1 px-2 bg-green-600 rounded">
-                            +{{ inAndOut.in }}$
+                        <p>
+                            <FontAwesomeIcon
+                                class="text-green-600 me-2"
+                                :icon="faChevronUp"
+                            />{{ inAndOut.in
+                            }}<span class="text-green-600">$</span>
                         </p>
-                        <p class="p-1 px-2 bg-white rounded">
-                            {{ inAndOut.in - inAndOut.out }}$
+                        <p>
+                            <FontAwesomeIcon
+                                class="text-orange-600 me-2"
+                                :icon="faEquals"
+                            />{{ inAndOut.in - inAndOut.out
+                            }}<span class="text-green-600">$</span>
                         </p>
-                        <p class="p-1 px-2 bg-blue-600 rounded">
-                            Balance: {{ balance.balance }}$
+                        <p
+                            class="p-1 px-4 text-center border-2 border-green-700 rounded-full bg-dark"
+                        >
+                            {{ balance.balance
+                            }}<span class="text-green-600">$</span>
                         </p>
                     </div>
                     <div class="px-2 my-auto bg-red-600 rounded" v-else>
@@ -249,7 +277,7 @@ function initializeAvgChart() {
                     </h1>
 
                     <div
-                        class="grid grid-cols-1 gap-5 p-4 mx-auto mt-8 rounded md:grid-cols-2 grid-flow-auto bg-dark"
+                        class="grid grid-cols-1 gap-5 p-4 mx-auto mt-8 rounded-lg md:grid-cols-2 grid-flow-auto bg-dark/75"
                     >
                         <div
                             class="col-span-1"
@@ -277,6 +305,9 @@ function initializeAvgChart() {
                                             'incoming'
                                         )
                                     "
+                                    @showModal="
+                                        openPaymentModal(regularIncoming)
+                                    "
                                 />
                             </Transition>
                         </div>
@@ -303,7 +334,7 @@ function initializeAvgChart() {
                     v-else
                     class="px-2 py-1 my-auto mt-8 text-lg font-bold text-center text-white bg-red-600 rounded"
                 >
-                    No Incoming payments
+                    No Incoming Payments
                 </div>
 
                 <!-- Regular Outgoing -->
@@ -314,7 +345,7 @@ function initializeAvgChart() {
                         Regular Outgoing
                     </h1>
                     <div
-                        class="grid grid-cols-1 gap-4 p-4 mx-auto mt-8 rounded md:grid-cols-2 grid-flow-auto bg-dark"
+                        class="grid grid-cols-1 gap-5 p-4 mx-auto mt-8 rounded-lg md:grid-cols-2 grid-flow-auto bg-dark/75"
                     >
                         <div
                             class="col-span-1"
@@ -340,6 +371,9 @@ function initializeAvgChart() {
                                             regularPayment.id,
                                             'payment'
                                         )
+                                    "
+                                    @showModal="
+                                        openPaymentModal(regularPayment)
                                     "
                                 />
                             </Transition>
@@ -367,7 +401,7 @@ function initializeAvgChart() {
                     v-else
                     class="px-2 py-1 my-auto mt-8 text-lg font-bold text-center text-white bg-red-600 rounded"
                 >
-                    No Incoming payments
+                    No Outgoing Payments
                 </div>
             </div>
         </div>

@@ -1,5 +1,9 @@
+<script setup>
+import { Link } from "@inertiajs/vue3";
+</script>
+
 <template>
-    <h1 id="logo" class="text-4xl">Finance</h1>
+    <Link href="/"><h1 id="logo" class="text-4xl">Finance</h1></Link>
 </template>
 
 <style>

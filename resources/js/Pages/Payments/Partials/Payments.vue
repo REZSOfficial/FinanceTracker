@@ -36,19 +36,24 @@ const props = defineProps({
                     {{ payment.title }}
                 </h1>
             </div>
-            <div class="flex gap-2 my-auto">
-                <p
-                    :class="
-                        type === 'outgoing' ? 'text-red-600' : 'text-green-600'
-                    "
-                >
-                    {{ payment.amount }}$
-                </p>
-                <FontAwesomeIcon
-                    :icon="faRepeat"
-                    class="my-auto text-gray-200"
-                    v-if="payment.regular"
-                ></FontAwesomeIcon>
+            <div class="flex flex-col gap-2 my-auto">
+                <div class="flex justify-end gap-x-1">
+                    <p
+                        :class="
+                            type === 'outgoing'
+                                ? 'text-red-600'
+                                : 'text-green-600'
+                        "
+                    >
+                        {{ payment.amount }}$
+                    </p>
+                    <FontAwesomeIcon
+                        :icon="faRepeat"
+                        class="my-auto text-gray-200"
+                        v-if="payment.regular"
+                    ></FontAwesomeIcon>
+                </div>
+                <p class="text-sm">{{ payment.created_at.split(" ")[0] }}</p>
             </div>
         </div>
     </div>

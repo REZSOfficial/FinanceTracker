@@ -22,7 +22,7 @@ class Incoming extends Model
 
     public static function getIncomingByUserId(String $id)
     {
-        return DB::table('incomings')->where('user_id', $id)->get();
+        return DB::table('incomings')->where('user_id', $id)->orderBy('created_at', 'desc')->get();
     }
 
     public static function getRegularIncomingByUserId(String $id)
@@ -30,7 +30,7 @@ class Incoming extends Model
         return Incoming::where('user_id', $id)->where('regular', 1)->whereNot('period', 0)->get();
     }
 
-    public static function getAvarage(): array
+    public static function getAverage(): array
     {
         $averageIncoming = DB::select("
             SELECT 
@@ -90,8 +90,8 @@ class Incoming extends Model
     {
         $currentDate = Carbon::now();
         $dbDate = Carbon::parse($this->created_at);
-        $monthsDifference = $currentDate->diffInMonths($dbDate);
+        $monthsDifference = $this->period - $dbDate->diffInMonths($currentDate);
 
-        return max(-$this->period, $monthsDifference);
+        return max($monthsDifference, 0);
     }
 }

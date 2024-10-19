@@ -3,7 +3,7 @@ import PrimaryButton from "./PrimaryButton.vue";
 import { useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { faLock, faX } from "@fortawesome/free-solid-svg-icons";
 
 let is_regular = ref(false);
 
@@ -44,7 +44,7 @@ const submitForm = () => {
         <div
             v-show="show"
             id="incomingform"
-            class="fixed z-50 w-1/2 p-2 py-4 text-white -translate-x-1/2 -translate-y-1/2 border border-gray-400 rounded-lg bg-light drop-shadow-xl top-1/2 left-1/2"
+            class="fixed z-50 w-1/2 p-2 py-4 text-white -translate-x-1/2 -translate-y-1/2 border-2 rounded-lg border-blue bg-light top-1/2 left-1/2"
         >
             <div class="text-red">{{ errors }}</div>
             <form
@@ -52,9 +52,13 @@ const submitForm = () => {
                 class="flex flex-col"
                 method="POST"
             >
-                <div class="text-3xl text-center">
+                <div class="flex justify-between mx-8 text-3xl">
                     <div class="mb-8 font-bold">Create Incoming Payment</div>
-                    <i id="inX" class="fa-solid fa-x"></i>
+                    <FontAwesomeIcon
+                        @click="$emit('close')"
+                        :icon="faX"
+                        class="text-red-500 hover:cursor-pointer"
+                    ></FontAwesomeIcon>
                 </div>
                 <div class="flex flex-col w-1/2 mx-auto gap-y-2">
                     <div>

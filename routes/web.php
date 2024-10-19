@@ -29,40 +29,46 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+
+    // Dashboard
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
-    //Settings
-    Route::get('/settings', [SettingController::class, 'show'])->name('settings.show');
-    Route::post('/settings/update', [SettingController::class, 'update'])->name('settings.update');
-    Route::post('/settings/updatebalance', [SettingController::class, 'updateBalance'])->name('balance.update');
-    Route::post('/settings/updatepreferences', [SettingController::class, 'updatePreferences'])->name('preferences.update');
+    // Settings
+    Route::prefix('settings')->group(function () {
+        Route::get('/', [SettingController::class, 'show'])->name('settings.show');
+        Route::post('/update', [SettingController::class, 'update'])->name('settings.update');
+        Route::post('/updatebalance', [SettingController::class, 'updateBalance'])->name('balance.update');
+        Route::post('/updatepreferences', [SettingController::class, 'updatePreferences'])->name('preferences.update');
+    });
 
-    //Create, delete or view payments
-    Route::get('/payments', [HomeController::class, 'payments'])->name('payments');
+    // Payments
+    Route::prefix('payments')->group(function () {
+        Route::get('/', [HomeController::class, 'payments'])->name('payments');
+        Route::post('/outgoing/create', [PaymentController::class, 'create'])->name('createOutgoing');
+        Route::post('/incoming/create', [IncomingController::class, 'create'])->name('createIncoming');
+        Route::delete('/outgoing/{payment}/delete', [PaymentController::class, 'delete'])->name('deleteOutgoing');
+        Route::delete('/incoming/{incoming}/delete', [IncomingController::class, 'delete'])->name('deleteIncoming');
+    });
 
-    //Goals
-    Route::get('/goals/create', [GoalController::class, 'create'])->name('createGoal');
-    Route::get('/goals', [GoalController::class, 'show'])->name('viewGoals');
-    Route::post('/goals/delete/{id}', [GoalController::class, 'delete'])->name('deleteGoal');
-    Route::get('/goals/{id}', [GoalController::class, 'view'])->name('showGoal');
-    Route::post('/goals/save', [GoalController::class, 'save'])->name('saveGoal');
+    // Goals
+    Route::prefix('goals')->group(function () {
+        Route::get('/create', [GoalController::class, 'create'])->name('createGoal');
+        Route::get('/', [GoalController::class, 'show'])->name('viewGoals');
+        Route::post('/delete/{id}', [GoalController::class, 'delete'])->name('deleteGoal');
+        Route::get('/{id}', [GoalController::class, 'view'])->name('showGoal');
+        Route::post('/save', [GoalController::class, 'save'])->name('saveGoal');
+        Route::post('/generate-content', [GoalController::class, 'generateResponse'])->name('generateResponse');
+    });
 
-    //Balance
+    // Balance
     Route::post('/balance/update', [BalanceController::class, 'update'])->name('updateBalance');
 
-    //Profile
-    Route::get('/profile/{id}/settings', [ProfileController::class, 'profileSettings']);
-    Route::get('/profile/{id}/data', [ProfileController::class, 'profileData']);
+    // Profile
+    Route::prefix('profile/{id}')->group(function () {
+        Route::get('/settings', [ProfileController::class, 'profileSettings']);
+        Route::get('/data', [ProfileController::class, 'profileData']);
+    });
 
-    //Payments
-    Route::post('/outgoing/create', [PaymentController::class, 'create'])->name('createOutgoing');
-    Route::post('/incoming/create', [IncomingController::class, 'create'])->name('createIncoming');
-    Route::delete('/outgoing/{payment}/delete', [PaymentController::class, 'delete'])->name('deleteOutgoing');
-    Route::delete('/incoming/{incoming}/delete', [IncomingController::class, 'delete'])->name('deleteIncoming');
-
-    //Avarage
+    // Averages
     Route::get('/averages', [AvarageController::class, 'index'])->name('averages.index');
-
-    // Ai response to goal recommendation
-    Route::post('/generate-content', [GoalController::class, 'generateResponse'])->name('generateResponse');
 });

@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class AvarageController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): \Inertia\Response
     {
         $month = Carbon::now()->month;
 
@@ -27,8 +27,8 @@ class AvarageController extends Controller
             ]);
         }
 
-        $averageIncoming = Incoming::getAvarage();
-        $averageOutgoing = Payment::getAvarage();
+        $averageIncoming = Incoming::getAverage();
+        $averageOutgoing = Payment::getAverage();
 
         $averageIncomingByType = Incoming::getAverageByType($month);
         $averagePaymentByType = Payment::getAverageByType($month);

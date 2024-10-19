@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DataRequest;
+use App\Http\Requests\PreferenceRequest;
 use App\Models\Data;
 use Inertia\Inertia;
 use App\Models\Balance;
@@ -29,18 +31,8 @@ class SettingController extends Controller
         ]);
     }
 
-    public function update(Request $request)
+    public function update(DataRequest $request)
     {
-        $request->validate([
-            'food_drink' => 'integer',
-            'housing' => 'integer',
-            'transportation' => 'integer',
-            'healthcare' => 'integer',
-            'entertainment' => 'integer',
-            'other' => 'integer',
-        ]);
-
-
         Data::updateOrCreate(
             [
                 'user_id' => Auth::user()->id
@@ -76,7 +68,7 @@ class SettingController extends Controller
         return redirect()->back();
     }
 
-    public function updatePreferences(Request $request)
+    public function updatePreferences(PreferenceRequest $request)
     {
         $preference = Preference::where('user_id', Auth::user()->id)->first();
 

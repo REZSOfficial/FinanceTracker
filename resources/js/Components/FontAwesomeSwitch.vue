@@ -12,37 +12,22 @@ import {
 const props = defineProps({
     payment: Object,
 });
+
+const iconMap = {
+    food_drink: { icon: faBurger, class: "text-orange-600 bg-slate-700" },
+    transportation: { icon: faCar, class: "text-black bg-yellow-600" },
+    housing: { icon: faHouse, class: "text-slate-600 bg-red-300 py-[0.8rem]" },
+    healthcare: { icon: faNotesMedical, class: "text-white bg-red-700" },
+    entertainment: { icon: faGift, class: "bg-indigo-700" },
+    other: { icon: faWandMagic, class: "bg-purple-900" },
+};
 </script>
 
 <template>
     <FontAwesomeIcon
-        class="p-3 my-auto text-2xl text-orange-600 rounded-full bg-slate-700"
-        v-if="payment.type === 'food_drink'"
-        :icon="faBurger"
-    ></FontAwesomeIcon>
-    <FontAwesomeIcon
-        class="p-3 my-auto text-2xl text-black bg-yellow-600 rounded-full"
-        v-if="payment.type === 'transportation'"
-        :icon="faCar"
-    ></FontAwesomeIcon>
-    <FontAwesomeIcon
-        class="p-3 py-[0.8rem] my-auto text-2xl bg-red-300 rounded-full text-slate-600"
-        v-if="payment.type === 'housing'"
-        :icon="faHouse"
-    ></FontAwesomeIcon>
-    <FontAwesomeIcon
-        class="p-3 my-auto text-2xl text-white bg-red-700 rounded-full"
-        v-if="payment.type === 'healthcare'"
-        :icon="faNotesMedical"
-    ></FontAwesomeIcon>
-    <FontAwesomeIcon
-        class="p-3 my-auto text-2xl bg-indigo-700 rounded-full"
-        v-if="payment.type === 'entertainment'"
-        :icon="faGift"
-    ></FontAwesomeIcon>
-    <FontAwesomeIcon
-        class="p-3 my-auto text-2xl bg-purple-900 rounded-full"
-        v-if="payment.type === 'other'"
-        :icon="faWandMagic"
-    ></FontAwesomeIcon>
+        v-if="iconMap[payment.type]"
+        class="p-3 my-auto text-2xl rounded-full"
+        :icon="iconMap[payment.type].icon"
+        :class="iconMap[payment.type].class"
+    />
 </template>

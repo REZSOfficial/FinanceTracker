@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PaymentRequest;
 use App\Models\Balance;
 use App\Models\Payment;
 use Illuminate\Http\Request;
@@ -10,19 +11,8 @@ use Illuminate\Support\Facades\Validator;
 
 class PaymentController extends Controller
 {
-    public static function create(Request $request)
+    public static function create(PaymentRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|max:32',
-            'amount' => 'required',
-            'regular' => 'required',
-            'type' => 'required',
-            'type_of_payment' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return back();
-        }
         Payment::Create(
             [
                 'user_id' => Auth::user()->id,

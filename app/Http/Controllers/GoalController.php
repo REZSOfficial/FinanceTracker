@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GoalRequest;
 use Gemini;
 use Carbon\Carbon;
 use App\Models\Goal;
@@ -20,14 +21,8 @@ class GoalController extends Controller
         return Inertia::render('Goals/Create');
     }
 
-    public function save(Request $request)
+    public function save(GoalRequest $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'date' => 'required|date',
-        ]);
-
         Goal::create([
             'user_id' => Auth()->id(),
             'title' => $request->title,
@@ -123,7 +118,6 @@ class GoalController extends Controller
          I also have other goals that i want to achieve (if this is empty then ignore it):" . $other_goal_text .
             "My current balance is " . $balance->balance . ". I have " . $incoming->count() . " incoming transactions and " . $payments->count() . " payments.
          These payments are: " . $outgoingText . "These incoming transactions are: " . $incomingText . "I have " . $savings . " in savings. (this might be 0, then ignore it)";
-
         return $text;
     }
 }

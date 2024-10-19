@@ -50,7 +50,7 @@ const logout = () => {
         <div class="min-h-screen" id="app-container">
             <nav>
                 <!-- Primary Navigation Menu -->
-                <div class="px-4 mx-auto max-w-7xl sm:px-0 lg:px-2">
+                <div class="px-4 max-w-7xl sm:px-0 lg:px-2">
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
@@ -441,13 +441,22 @@ const logout = () => {
                         ></PrimaryButton
                     >
                 </div>
-                <AddIncoming :show="showCreateIncoming"></AddIncoming>
-                <AddOutgoing :show="showCreateOutgoing"></AddOutgoing>
+                <AddIncoming
+                    @close="showCreateIncoming = false"
+                    :show="showCreateIncoming"
+                ></AddIncoming>
+                <AddOutgoing
+                    @close="showCreateOutgoing = false"
+                    :show="showCreateOutgoing"
+                ></AddOutgoing>
             </main>
         </div>
     </div>
-    <footer class="p-4 pt-[100px]">
-        <div class="flex gap-12 text-lg text-blue">
+    <footer>
+        <div class="h-[100px]"></div>
+        <div
+            class="flex flex-wrap gap-12 p-4 text-lg gap-y-4 text-blue bg-dark"
+        >
             <h1>Finance Manager Application</h1>
             <h2>Copyright © 2024</h2>
             <h3>
