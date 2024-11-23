@@ -2,10 +2,11 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { useForm } from "@inertiajs/vue3";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import InputError from "@/Components/InputError.vue";
 
 const form = useForm({
     title: "",
-    price: 0,
+    price: "",
     date: "",
     description: "",
 });
@@ -25,6 +26,11 @@ const form = useForm({
                         class="w-full border-0 rounded bg-dark"
                         v-model="form.title"
                     />
+                    <InputError
+                        :message="form.errors.title"
+                        class="text-red-500"
+                    >
+                    </InputError>
                 </div>
                 <div>
                     <label for="title">Price</label>
@@ -33,6 +39,11 @@ const form = useForm({
                         class="w-full border-0 rounded bg-dark"
                         v-model="form.price"
                     />
+                    <InputError
+                        :message="form.errors.price"
+                        class="text-red-500"
+                    >
+                    </InputError>
                 </div>
 
                 <div>
@@ -42,6 +53,11 @@ const form = useForm({
                         class="w-full border-0 rounded bg-dark custom-date"
                         type="date"
                     />
+                    <InputError
+                        :message="form.errors.date"
+                        class="text-red-500"
+                    >
+                    </InputError>
                 </div>
 
                 <div>

@@ -11,6 +11,7 @@ use App\Models\Payment;
 use App\Models\Incoming;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\DataController;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -56,8 +57,9 @@ class HomeController extends Controller
         ]);
     }
 
-    public function payments()
+    public function payments(Request $request)
     {
+        $userId = Auth::user()->id;
         $payments = Payment::getPaymentsByUserId(Auth::user()->id);
         $incomings = Incoming::getIncomingByUserId(Auth::user()->id);
         return Inertia::render('Payments/Show', ['outgoings' => $payments, 'incomings' => $incomings]);

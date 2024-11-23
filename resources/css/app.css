@@ -48,3 +48,11 @@ input {
 .stat-container {
     @apply flex flex-col justify-between w-full p-4 text-white border-4 shadow-lg rounded-xl gap-y-3 sm:flex-row gap-x-2 md:w-1/2 bg-dark/70 shadow-slate-200/20 border-dark;
 }
+
+#type-select {
+    background-color: var(--dark);
+}
+
+#type-select option {
+    @apply px-2 text-[15px] rounded-md bg-dark border-2 border-transparent hover:border-white duration-200 hover:cursor-pointer;
+}

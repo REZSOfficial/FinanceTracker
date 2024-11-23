@@ -3,10 +3,11 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import Payments from "@/Pages/Payments/Partials/Payments.vue";
 
 const props = defineProps({
-    outgoings: Object,
-    incomings: Object,
+    outgoings: Array,
+    incomings: Array,
 });
 </script>
+
 <template>
     <AppLayout title="Payments">
         <div class="flex flex-col w-3/4 gap-4 mx-auto mt-12 md:flex-row">

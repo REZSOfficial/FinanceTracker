@@ -31,7 +31,9 @@ class GoalController extends Controller
             'description' => $request->description,
         ]);
 
-        return Inertia::render('Goals/Show');
+        $goals = Goal::where('user_id', Auth::user()->id)->get();
+
+        return Inertia::render('Goals/Show', ['goals' => $goals]);
     }
 
     public function show()
@@ -59,11 +61,8 @@ class GoalController extends Controller
     public function generateResponse(Request $request)
     {
         $goal = Goal::find($request->input('goalId'));
-
         $client = $this->getClient();
-
         $text = $this->createGeminiText($goal);
-
         $result = $client->geminiPro()->generateContent($text);
 
         return response()->json(['response' => $result->text()]);

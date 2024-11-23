@@ -33,37 +33,31 @@ class Payment extends Model
 
     public static function getAverage(): array
     {
-        $averageOutgoing = DB::select("
-            SELECT 
-                m.month, 
-                COALESCE(AVG(p.amount), 0) AS amount 
-            FROM 
-                (SELECT 1 AS month UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
-                UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 
-                UNION ALL SELECT 8 UNION ALL SELECT 9 UNION ALL SELECT 10 
-                UNION ALL SELECT 11 UNION ALL SELECT 12) AS m
-            LEFT JOIN payments p ON m.month = MONTH(p.created_at)
-            GROUP BY m.month
-            ORDER BY m.month ASC
-        ");
+        $averageOutgoing = DB::table('payments')
+            ->selectRaw('MONTH(created_at) AS month, COALESCE(AVG(amount), 0) AS amount')
+            ->whereYear('created_at', '=', date('Y')) // Limit to the current year if needed
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get()
+            ->keyBy('month');
 
-        $averageOutgoingArray = array_map(function ($item) {
-            return $item->amount;
-        }, $averageOutgoing);
+        // Populate all months to ensure each month from 1 to 12 has a value
+        $averageOutgoingArray = [];
+        for ($month = 1; $month <= 12; $month++) {
+            $averageOutgoingArray[] = $averageOutgoing->get($month)->amount ?? 0;
+        }
 
         return $averageOutgoingArray;
     }
 
-    public static function getAverageByType(int $month, String $type = null)
+    public static function getAverageByType(int $month, ?string $type = null): array
     {
-        // Base SQL query with subquery to ensure no implicit columns are included
+        // Base SQL query to get average by type
         $query = "
-        SELECT subquery.type, subquery.avg_amount
-        FROM (
-            SELECT type, AVG(amount) as avg_amount
-            FROM payments
-            WHERE MONTH(created_at) = ?
-        ";
+        SELECT type, AVG(amount) as avg_amount
+        FROM payments
+        WHERE MONTH(created_at) = ?
+    ";
 
         // Parameters for the query
         $params = [$month];
@@ -74,14 +68,13 @@ class Payment extends Model
             $params[] = $type;
         }
 
-        // Close subquery and group by type
-        $query .= " GROUP BY type) as subquery";
+        // Add grouping and ordering directly
+        $query .= " GROUP BY type ORDER BY type";
 
-        // Execute the query with parameters
-        $averageOutgoing = DB::select($query, $params);
-
-        return $averageOutgoing;
+        // Execute the query and return the result
+        return DB::select($query, $params);
     }
+
 
     public function remainingMonths()
     {

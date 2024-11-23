@@ -2,11 +2,16 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import {
+    faChevronDown,
+    faTrash,
+    faBullseye,
+} from "@fortawesome/free-solid-svg-icons";
 import Accordion from "@/Pages/Goals/Partials/Accordion.vue";
 import { ref } from "vue";
 import axios from "axios";
 import convertGeneratedRespose from "../../Utils/convertGeneratedResponse";
+import { router } from "@inertiajs/vue3";
 const props = defineProps({
     goals: Object,
 });
@@ -39,6 +44,10 @@ const handleSuggestion = (goalId) => {
             loading.value = false;
         });
 };
+
+const deleteGoal = (goalId) => {
+    router.delete(route("deleteGoal", { id: goalId }));
+};
 </script>
 
 <template>
@@ -46,7 +55,14 @@ const handleSuggestion = (goalId) => {
         <div
             class="flex flex-col w-2/3 p-3 mx-auto mt-8 text-sm text-gray-200 rounded-lg gap-y-2 glass min-w-fit sm:text-2xl"
         >
-            <div v-if="goals.length === 0">No goals yet</div>
+            <div class="flex justify-between" v-if="goals.length === 0">
+                <h1 class="my-auto text-yellow-500">No Goals Yet</h1>
+                <PrimaryButton
+                    :icon="faBullseye"
+                    class="bg-yellow-600 hover:bg-yellow-700"
+                    ><a :href="route('createGoal')">Add Goal</a></PrimaryButton
+                >
+            </div>
             <div v-else v-for="goal in goals" :key="goal.id">
                 <div
                     class="flex justify-between p-3 border rounded-t-lg border-lighter glass min-w-fit"
@@ -74,11 +90,20 @@ const handleSuggestion = (goalId) => {
                             <strong>Date: </strong>
                             <span>{{ goal.date }}</span>
                         </p>
-                        <PrimaryButton
-                            @click.prevent="handleSuggestion(goal.id)"
-                            class="text-xs bg-green-600"
-                            >Get Suggestion</PrimaryButton
-                        >
+                        <div class="flex gap-3">
+                            <PrimaryButton
+                                @click.prevent="handleSuggestion(goal.id)"
+                                class="w-full text-xs bg-green-600"
+                                >Get Suggestion</PrimaryButton
+                            >
+                            <PrimaryButton
+                                @click.prevent="deleteGoal(goal.id)"
+                                class="text-xs bg-red-600"
+                                ><FontAwesomeIcon
+                                    :icon="faTrash"
+                                ></FontAwesomeIcon
+                            ></PrimaryButton>
+                        </div>
                     </div>
                 </Accordion>
             </div>

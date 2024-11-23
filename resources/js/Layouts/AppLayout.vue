@@ -50,45 +50,43 @@ const logout = () => {
         <div class="min-h-screen" id="app-container">
             <nav>
                 <!-- Primary Navigation Menu -->
-                <div class="px-4 max-w-7xl sm:px-0 lg:px-2">
+                <div class="px-4 sm:px-0 lg:px-2">
                     <div class="flex justify-between h-16">
-                        <div class="flex">
-                            <!-- Logo -->
-                            <div class="flex items-center shrink-0">
-                                <Link :href="route('dashboard')">
-                                    <ApplicationMark class="w-auto" />
-                                </Link>
-                            </div>
+                        <!-- Logo -->
+                        <div class="flex items-center shrink-0">
+                            <Link :href="route('dashboard')">
+                                <ApplicationMark class="w-auto" />
+                            </Link>
+                        </div>
 
-                            <!-- Navigation Links -->
-                            <div
-                                class="items-center hidden space-x-4 sm:ms-10 md:flex"
+                        <!-- Navigation Links -->
+                        <div
+                            class="items-center hidden space-x-4 sm:ms-10 md:flex"
+                        >
+                            <NavLink
+                                :href="route('dashboard')"
+                                :active="route().current('dashboard')"
                             >
-                                <NavLink
-                                    :href="route('dashboard')"
-                                    :active="route().current('dashboard')"
-                                >
-                                    Dashboard
-                                </NavLink>
-                                <NavLink
-                                    :href="route('payments')"
-                                    :active="route().current('payments')"
-                                >
-                                    Payments
-                                </NavLink>
-                                <NavLink
-                                    :href="route('viewGoals')"
-                                    :active="route().current('viewGoals')"
-                                >
-                                    Goals
-                                </NavLink>
-                                <NavLink
-                                    :href="route('averages.index')"
-                                    :active="route().current('averages.index')"
-                                >
-                                    Average
-                                </NavLink>
-                            </div>
+                                Dashboard
+                            </NavLink>
+                            <NavLink
+                                :href="route('payments')"
+                                :active="route().current('payments')"
+                            >
+                                Payments
+                            </NavLink>
+                            <NavLink
+                                :href="route('viewGoals')"
+                                :active="route().current('viewGoals')"
+                            >
+                                Goals
+                            </NavLink>
+                            <NavLink
+                                :href="route('averages.index')"
+                                :active="route().current('averages.index')"
+                            >
+                                Average
+                            </NavLink>
                         </div>
 
                         <div class="hidden md:flex sm:items-center sm:ms-6">

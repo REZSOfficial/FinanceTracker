@@ -10,35 +10,30 @@ use Illuminate\Http\Request;
 
 class AvarageController extends Controller
 {
-    public function index(Request $request): \Inertia\Response
+    public function index(Request $request)
     {
-        $month = Carbon::now()->month;
+        $month = $request->has('month') ? intval($request->month) : Carbon::now()->month;
+        $type = $request->has('type') ? $request->type : null;
 
-        if ($request->has('month')) {
-            $month = intval($request->month);
+        $averageIncomingByType = Incoming::getAverageByType($month, $type);
+        $averagePaymentByType = Payment::getAverageByType($month, $type);
 
-            $averageIncomingByType = Incoming::getAverageByType($month);
-            $averagePaymentByType = Payment::getAverageByType($month);
-
+        if ($request->wantsJson()) {
             return response()->json([
                 'averageIncomingByType' => $averageIncomingByType,
                 'averageOutgoingByType' => $averagePaymentByType,
-                'currentMonth' => $month
+                'currentMonth' => $month,
+                'currentType' => $type,
             ]);
         }
 
-        $averageIncoming = Incoming::getAverage();
-        $averageOutgoing = Payment::getAverage();
-
-        $averageIncomingByType = Incoming::getAverageByType($month);
-        $averagePaymentByType = Payment::getAverageByType($month);
-
         return Inertia::render('Avarages/Show', [
-            'averageIncoming' => $averageIncoming,
-            'averageOutgoing' => $averageOutgoing,
+            'averageIncoming' => Incoming::getAverage(),
+            'averageOutgoing' => Payment::getAverage(),
             'averageIncomingByType' => $averageIncomingByType,
             'averageOutgoingByType' => $averagePaymentByType,
-            'currentMonth' => $month
+            'currentMonth' => $month,
+            'currentType' => $type,
         ]);
     }
 }

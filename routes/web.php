@@ -54,7 +54,7 @@ Route::middleware([
     Route::prefix('goals')->group(function () {
         Route::get('/create', [GoalController::class, 'create'])->name('createGoal');
         Route::get('/', [GoalController::class, 'show'])->name('viewGoals');
-        Route::post('/delete/{id}', [GoalController::class, 'delete'])->name('deleteGoal');
+        Route::delete('/delete/{id}', [GoalController::class, 'delete'])->name('deleteGoal');
         Route::get('/{id}', [GoalController::class, 'view'])->name('showGoal');
         Route::post('/save', [GoalController::class, 'save'])->name('saveGoal');
         Route::post('/generate-content', [GoalController::class, 'generateResponse'])->name('generateResponse');

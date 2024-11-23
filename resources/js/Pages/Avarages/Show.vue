@@ -2,15 +2,15 @@
     <AppLayout title="Average Spendings">
         <!-- Line chart for average spendings -->
         <div
-            class="flex flex-col w-full p-3 mx-auto mt-8 text-sm text-gray-200 rounded-lg md:w-2/3 gap-y-2 glass sm:text-2xl"
+            class="flex flex-col w-full p-3 mx-auto mt-8 text-sm text-gray-200 sm:rounded-lg md:w-2/3 gap-y-2 glass sm:text-2xl"
         >
             <h1 class="mt-2 mb-6 text-center">Average Spendings</h1>
-            <canvas id="average"></canvas>
+            <canvas height="500" id="average"></canvas>
         </div>
 
         <!-- Bar chart for average spendings by type -->
         <div
-            class="flex flex-col w-full p-3 mx-auto mt-8 text-sm text-gray-200 rounded-lg md:w-2/3 gap-y-2 glass sm:text-2xl"
+            class="flex flex-col w-full p-3 mx-auto mt-8 text-sm text-gray-200 sm:rounded-lg md:w-2/3 gap-y-2 glass sm:text-2xl max-h-[900px]"
         >
             <h1 class="mt-2 mb-6 text-center">Average Spendings by Type</h1>
             <ul class="flex flex-wrap justify-center gap-3">
@@ -19,11 +19,27 @@
                     v-for="(month, index) in getMonths(12)"
                     :class="{ 'border-white': index + 1 === selectedMonth }"
                     :key="month"
-                    @click="changeMonth(index + 1)"
+                    @click="changeMonthAndType(index + 1)"
                 >
                     {{ month }}
                 </li>
             </ul>
+
+            <!-- Type selector -->
+            <select
+                id="type-select"
+                v-model="selectedType"
+                @change="changeMonthAndType(selectedMonth)"
+            >
+                <option selected value="">All</option>
+                <option value="food_drink">Food and Drink</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="housing">Housing</option>
+                <option value="transportation">Transportation</option>
+                <option value="other">Other</option>
+            </select>
+
             <canvas id="by-type"></canvas>
         </div>
     </AppLayout>
@@ -37,40 +53,24 @@ import Chart from "chart.js/auto";
 import axios from "axios";
 
 const props = defineProps({
-    averageIncoming: {
-        type: Object,
-        required: true,
-    },
-    averageOutgoing: {
-        type: Object,
-        required: true,
-    },
-    averageIncomingByType: {
-        type: Array,
-        default: () => [], // Default to an empty array if undefined
-    },
-    averageOutgoingByType: {
-        type: Array,
-        default: () => [], // Default to an empty array if undefined
-    },
-    currentMonth: {
-        type: Number,
-        required: true,
-    },
+    averageIncoming: { type: Object, required: true },
+    averageOutgoing: { type: Object, required: true },
+    averageIncomingByType: { type: Array, default: () => [] },
+    averageOutgoingByType: { type: Array, default: () => [] },
+    currentMonth: { type: Number, required: true },
+    currentType: { type: String, default: "" },
 });
 
-// Reactive variables for the data
 const incomingByType = ref(props.averageIncomingByType);
 const outgoingByType = ref(props.averageOutgoingByType);
 const selectedMonth = ref(props.currentMonth);
+const selectedType = ref(props.currentType);
 
 let averageChart;
 let byTypeChart;
 
 const updateCharts = () => {
-    // Update the bar chart for average spendings by type
     if (byTypeChart) byTypeChart.destroy();
-
     const byTypeChartCanvas = document.getElementById("by-type");
 
     const typeLabels = incomingByType.value.map((item) => item.type);
@@ -103,22 +103,14 @@ const updateCharts = () => {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: "rgb(255, 255, 255)", // Y-axis labels color
-                        font: {
-                            size: 16,
-                            weight: "bold",
-                            family: "monospace",
-                        },
+                        color: "rgb(255, 255, 255)",
+                        font: { size: 16, weight: "bold", family: "monospace" },
                     },
                 },
                 x: {
                     ticks: {
-                        color: "rgb(255, 255, 255)", // X-axis labels color
-                        font: {
-                            size: 16,
-                            weight: "bold",
-                            family: "monospace",
-                        },
+                        color: "rgb(255, 255, 255)",
+                        font: { size: 16, weight: "bold", family: "monospace" },
                     },
                 },
             },
@@ -126,9 +118,9 @@ const updateCharts = () => {
     });
 };
 
-const changeMonth = (month) => {
+const changeMonthAndType = (month) => {
     axios
-        .get(route("averages.index", { month: month }))
+        .get(route("averages.index", { month, type: selectedType.value }))
         .then((response) => {
             incomingByType.value = response.data.averageIncomingByType || [];
             outgoingByType.value = response.data.averageOutgoingByType || [];
@@ -145,7 +137,6 @@ const changeMonth = (month) => {
 };
 
 onMounted(() => {
-    // Line chart for average incoming and outgoing
     const averageChartCanvas = document.getElementById("average");
     const labels = getMonths(12);
 
@@ -185,22 +176,14 @@ onMounted(() => {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: "rgb(255, 255, 255)", // Y-axis labels color
-                        font: {
-                            size: 16,
-                            weight: "bold",
-                            family: "monospace",
-                        },
+                        color: "rgb(255, 255, 255)",
+                        font: { size: 16, weight: "bold", family: "monospace" },
                     },
                 },
                 x: {
                     ticks: {
-                        color: "rgb(255, 255, 255)", // X-axis labels color
-                        font: {
-                            size: 16,
-                            weight: "bold",
-                            family: "monospace",
-                        },
+                        color: "rgb(255, 255, 255)",
+                        font: { size: 16, weight: "bold", family: "monospace" },
                     },
                 },
             },
