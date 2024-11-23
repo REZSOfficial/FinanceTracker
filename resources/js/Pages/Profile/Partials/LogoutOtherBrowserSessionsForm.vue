@@ -52,7 +52,7 @@ const closeModal = () => {
         </template>
 
         <template #content>
-            <div class="max-w-xl text-sm text-gray-600">
+            <div class="max-w-xl text-sm text-white">
                 If necessary, you may log out of all of your other browser
                 sessions across all of your devices. Some of your recent
                 sessions are listed below; however, this list may not be
@@ -102,7 +102,7 @@ const closeModal = () => {
                     </div>
 
                     <div class="ms-3">
-                        <div class="text-sm text-gray-600">
+                        <div class="text-sm text-white">
                             {{
                                 session.agent.platform
                                     ? session.agent.platform
