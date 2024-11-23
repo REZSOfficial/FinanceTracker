@@ -56,3 +56,8 @@ input {
 #type-select option {
     @apply px-2 text-[15px] rounded-md bg-dark border-2 border-transparent hover:border-white duration-200 hover:cursor-pointer;
 }
+
+.required:after {
+    content: "*";
+    color: red;
+}

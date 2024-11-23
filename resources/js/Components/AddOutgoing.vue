@@ -1,5 +1,6 @@
 <script setup>
 import PrimaryButton from "./PrimaryButton.vue";
+import InputError from "./InputError.vue";
 import { useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -46,7 +47,6 @@ const submitForm = () => {
             id="incomingform"
             class="fixed z-50 w-1/2 p-2 py-4 text-white -translate-x-1/2 -translate-y-1/2 border-2 rounded-lg border-blue bg-light top-1/2 left-1/2"
         >
-            <div class="text-red">{{ errors }}</div>
             <form
                 @submit.prevent="submitForm"
                 class="flex flex-col"
@@ -60,9 +60,9 @@ const submitForm = () => {
                         class="text-red-500 hover:cursor-pointer"
                     ></FontAwesomeIcon>
                 </div>
-                <div class="flex flex-col w-1/2 mx-auto gap-y-2">
+                <div class="flex flex-col w-2/3 mx-auto gap-y-2">
                     <div>
-                        <label for="title">Title</label>
+                        <label class="required" for="title">Title</label>
                         <div>
                             <input
                                 v-model="form.title"
@@ -71,12 +71,12 @@ const submitForm = () => {
                                 class="w-full border-0 rounded bg-dark"
                                 name="title"
                             />
-                            <span id="invalid-title"></span>
+                            <InputError :message="form.errors.title" />
                         </div>
                     </div>
 
                     <div>
-                        <label for="amount">Amount</label>
+                        <label class="required" for="amount">Amount</label>
                         <div>
                             <input
                                 v-model="form.amount"
@@ -85,12 +85,12 @@ const submitForm = () => {
                                 class="w-full border-0 rounded bg-dark"
                                 name="amount"
                             />
-                            <span id="invalid-amount"></span>
+                            <InputError :message="form.errors.amount" />
                         </div>
                     </div>
 
                     <div>
-                        <label for="regular">Regular</label>
+                        <label class="required" for="regular">Regular</label>
                         <div>
                             <select
                                 v-model="form.regular"
@@ -102,7 +102,7 @@ const submitForm = () => {
                                 <option value="1">Yes</option>
                                 <option value="0">No</option>
                             </select>
-                            <span id="invalid-regular"></span>
+                            <InputError :message="form.errors.regular" />
                         </div>
                     </div>
 
@@ -130,12 +130,12 @@ const submitForm = () => {
                                 "
                             />
 
-                            <span id="invalid-period"></span>
+                            <InputError :message="form.errors.period" />
                         </div>
                     </div>
 
                     <div>
-                        <label for="type"> Type </label>
+                        <label class="required" for="type">Type</label>
                         <div>
                             <select
                                 v-model="form.type"
@@ -156,12 +156,14 @@ const submitForm = () => {
                                 </option>
                                 <option value="other">Other</option>
                             </select>
-                            <span id="invalid-type"></span>
+                            <InputError :message="form.errors.type" />
                         </div>
                     </div>
 
                     <div class="mb-3 row">
-                        <label for="type_of_payment">Payment Type</label>
+                        <label class="required" for="type_of_payment"
+                            >Payment Type</label
+                        >
                         <div>
                             <select
                                 v-model="form.type_of_payment"
@@ -172,7 +174,9 @@ const submitForm = () => {
                                 <option value="cash">Cash</option>
                                 <option value="card">Card</option>
                             </select>
-                            <span id="invalid-type-of-payment"></span>
+                            <InputError
+                                :message="form.errors.type_of_payment"
+                            />
                         </div>
                     </div>
 
@@ -180,7 +184,7 @@ const submitForm = () => {
                         <div>
                             <PrimaryButton
                                 type="submit"
-                                class="bg-green-600 hover:bg-green-700"
+                                class="w-full bg-green-600 hover:bg-green-700"
                             >
                                 Add
                             </PrimaryButton>
