@@ -226,6 +226,7 @@ const disableTwoFactorAuthentication = () => {
                     >
                         <PrimaryButton
                             type="button"
+                            class="bg-green-600 hover:bg-green-700"
                             :class="{ 'opacity-25': enabling }"
                             :disabled="enabling"
                         >

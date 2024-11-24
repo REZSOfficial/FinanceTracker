@@ -73,14 +73,36 @@ const updateCharts = () => {
     if (byTypeChart) byTypeChart.destroy();
     const byTypeChartCanvas = document.getElementById("by-type");
 
-    const typeLabels = incomingByType.value.map((item) => item.type);
-    const incomingData = incomingByType.value.map((item) => item.avg_amount);
-    const outgoingData = outgoingByType.value.map((item) => item.avg_amount);
+    console.log(incomingByType.value);
+    console.log(outgoingByType.value);
+
+    // Add labels for outgoing and incoming
+    // Find a unique set of all types from incoming and outgoing data
+    const allTypes = [
+        ...new Set([
+            ...incomingByType.value.map((item) => item.type),
+            ...outgoingByType.value.map((item) => item.type),
+        ]),
+    ];
+
+    // Prepare data arrays, defaulting to 0 if a type is not found in one of the datasets
+    const incomingData = allTypes.map(
+        (type) =>
+            incomingByType.value.find((item) => item.type === type)
+                ?.avg_amount || 0
+    );
+    const outgoingData = allTypes.map(
+        (type) =>
+            outgoingByType.value.find((item) => item.type === type)
+                ?.avg_amount || 0
+    );
+
+    const typeLabels = allTypes;
 
     byTypeChart = new Chart(byTypeChartCanvas, {
         type: "bar",
         data: {
-            labels: typeLabels,
+            labels: typeLabels, // Use unified labels
             datasets: [
                 {
                     label: "Average Incoming by Type",

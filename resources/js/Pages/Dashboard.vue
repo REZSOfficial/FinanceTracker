@@ -271,7 +271,7 @@ function initializeAvgChart() {
                 <!-- Regular Incoming -->
                 <div v-if="regularIncomingsState.length" class="mt-8">
                     <h1
-                        class="p-2 px-3 mx-auto text-3xl text-center text-gray-300 border border-gray-400 rounded bg-dark w-fit"
+                        class="px-12 py-4 mx-auto text-3xl text-center text-gray-300 border-2 border-gray-400 shadow-2xl shadow-slate-200/20 bg-dark w-fit rounded-2xl"
                     >
                         Regular Incoming
                     </h1>
@@ -340,7 +340,7 @@ function initializeAvgChart() {
                 <!-- Regular Outgoing -->
                 <div v-if="regularPaymentsState.length" class="mt-8">
                     <h1
-                        class="p-2 px-3 mx-auto text-3xl text-center text-gray-300 border border-gray-400 rounded bg-dark w-fit"
+                        class="px-12 py-4 mx-auto text-3xl text-center text-gray-300 border-2 border-gray-400 shadow-2xl shadow-slate-200/20 bg-dark w-fit rounded-2xl"
                     >
                         Regular Outgoing
                     </h1>
