@@ -28,7 +28,7 @@ class Payment extends Model
 
     public static function getRegularPaymentsByUserId($id)
     {
-        return Payment::where('user_id', $id)->where('regular', 1)->whereNot('period', 0)->get();
+        return Payment::where('user_id', $id)->where('regular', 1)->whereNot('period', 0)->orderBy('created_at', 'desc')->get();
     }
 
     public static function getAverage(): array

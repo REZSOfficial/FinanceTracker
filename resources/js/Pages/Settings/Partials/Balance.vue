@@ -21,7 +21,7 @@ const balanceForm = useForm({
             <p
                 class="p-2 px-[1.1rem] text-center my-auto text-4xl text-white bg-green-600 rounded-full"
             >
-                $
+                {{ $page.props.auth.user.currency }}
             </p>
             <div class="w-full">
                 <label for="balance">Your Balance</label>
@@ -33,7 +33,6 @@ const balanceForm = useForm({
                         name="balance"
                         v-model="balanceForm.balance"
                     />
-                    <p class="mt-auto text-4xl text-green-600">$</p>
                 </div>
             </div>
         </div>

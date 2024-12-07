@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (Auth::check()) {
+            view()->composer('*', function ($view) {
+                $view->with('currentCurrency', Auth::user()->currency);
+            });
+        }
     }
 }

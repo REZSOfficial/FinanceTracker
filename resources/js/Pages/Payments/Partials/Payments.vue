@@ -44,21 +44,19 @@ const filteredPayments = computed(() => {
 </script>
 
 <template>
-    <div
-        class="p-4 mx-auto overflow-auto text-xl text-white border rounded md:w-full w-6/7 max-h-1/2 glass"
+    <h1
+        class="p-4 text-3xl font-bold text-center border-b-2 drop-shadow border-blue glass rounded-t-2xl text-blue"
     >
-        <h1 class="p-2 mx-auto mt-2 mb-4 border-2 w-fit">
-            {{ type === "outgoing" ? "Outgoing" : "Incoming" }}
-        </h1>
-
+        {{ type === "outgoing" ? "Outgoing" : "Incoming" }}
+    </h1>
+    <div
+        class="p-3 mx-auto overflow-auto text-xl rounded-b-2xl text-white/90 md:w-full w-6/7 max-h-1/2 glass"
+    >
         <!-- Filter UI -->
-        <div class="flex flex-col gap-4 mb-4">
+        <div class="flex flex-col gap-4 my-3">
             <!-- Category Filter -->
             <div class="flex flex-row w-full gap-2">
-                <select
-                    v-model="filters.category"
-                    class="w-full rounded bg-light"
-                >
+                <select v-model="filters.category" class="filter-input">
                     <option value="">All Categories</option>
                     <option value="entertainment">Entertainment</option>
                     <option value="healthcare">Healthcare</option>
@@ -70,10 +68,7 @@ const filteredPayments = computed(() => {
                 </select>
 
                 <!-- Regular/Not Regular Filter -->
-                <select
-                    v-model="filters.regular"
-                    class="w-full rounded bg-light"
-                >
+                <select v-model="filters.regular" class="filter-input">
                     <option value="">All</option>
                     <option value="regular">Regular</option>
                     <option value="not_regular">Not Regular</option>
@@ -88,7 +83,7 @@ const filteredPayments = computed(() => {
                         v-model="filters.minAmount"
                         min="0"
                         max="10000000"
-                        class="w-full rounded bg-light"
+                        class="filter-input"
                     />
                 </div>
 
@@ -99,7 +94,7 @@ const filteredPayments = computed(() => {
                         v-model="filters.maxAmount"
                         min="0"
                         max="10000000"
-                        class="w-full rounded bg-light"
+                        class="filter-input"
                     />
                 </div>
             </div>
@@ -107,7 +102,7 @@ const filteredPayments = computed(() => {
 
         <!-- Display Payments -->
         <div
-            class="flex justify-between p-2 px-4 my-2 rounded min-w-fit bg-light"
+            class="flex justify-between p-4 mt-3 rounded-2xl min-w-fit bg-light drop-shadow"
             v-for="payment in filteredPayments"
             :key="payment.id"
         >
@@ -124,7 +119,8 @@ const filteredPayments = computed(() => {
                                 : 'text-green-600'
                         "
                     >
-                        {{ payment.amount }}$
+                        {{ payment.amount }}
+                        {{ $page.props.auth.user.currency }}
                     </p>
                     <FontAwesomeIcon
                         :icon="faRepeat"

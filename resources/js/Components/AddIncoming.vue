@@ -3,10 +3,17 @@ import PrimaryButton from "./PrimaryButton.vue";
 import { useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faLock, faX } from "@fortawesome/free-solid-svg-icons";
+import {
+    faLock,
+    faX,
+    faCheck,
+    faMoneyBill,
+    faCreditCard,
+    faPlus,
+    faMinus,
+} from "@fortawesome/free-solid-svg-icons";
 import InputError from "./InputError.vue";
-
-let is_regular = ref(false);
+import FontAwesomeSwitch from "./FontAwesomeSwitch.vue";
 
 const props = defineProps({
     show: {
@@ -14,6 +21,8 @@ const props = defineProps({
         default: false,
     },
 });
+
+const incoming = ref(false);
 
 const form = useForm({
     _method: "POST",
@@ -26,7 +35,11 @@ const form = useForm({
 });
 
 const submitForm = () => {
-    form.post(route("createIncoming"));
+    if (incoming.value) {
+        form.post(route("createIncoming"));
+    } else {
+        form.post(route("createOutgoing"));
+    }
 };
 </script>
 
@@ -49,93 +62,163 @@ const submitForm = () => {
                 method="POST"
             >
                 <div class="flex justify-between mx-8 text-3xl">
-                    <div class="mb-8 font-bold">Create Incoming Payment</div>
+                    <div class="mb-8 font-bold">
+                        Create
+                        <span class="text-green-600" v-if="incoming"
+                            >Incoming</span
+                        ><span class="text-red-600" v-else>Outgoing</span>
+                        Payment
+                    </div>
                     <FontAwesomeIcon
                         @click="$emit('close')"
                         :icon="faX"
                         class="text-red-500 hover:cursor-pointer"
                     ></FontAwesomeIcon>
                 </div>
-                <div class="flex flex-col w-2/3 mx-auto gap-y-2">
+                <div class="flex flex-col w-2/3 mx-auto gap-y-4">
+                    <div class="flex gap-2 text-center">
+                        <div class="w-full">
+                            <label>Incoming</label>
+                            <div
+                                class="flex items-center rounded justify-center border-2 duration-100 hover:bg-green-500 border-green-600 h-[40px] hover:cursor-pointer"
+                                :class="incoming ? 'bg-green-600' : ''"
+                                @click="incoming = true"
+                            >
+                                <FontAwesomeIcon
+                                    :icon="faPlus"
+                                    class="text-xl"
+                                ></FontAwesomeIcon>
+                            </div>
+                        </div>
+                        <div class="w-full">
+                            <label>Outgoing</label>
+                            <div
+                                class="flex items-center rounded justify-center w-full hover:bg-red-500 duration-100 h-[40px] border-2 border-red-600 hover:cursor-pointer"
+                                :class="!incoming ? 'bg-red-600' : ''"
+                                @click="incoming = false"
+                            >
+                                <FontAwesomeIcon
+                                    :icon="faMinus"
+                                    class="text-xl"
+                                ></FontAwesomeIcon>
+                            </div>
+                        </div>
+                    </div>
                     <div>
                         <label for="title" class="required">Title</label>
-                        <div>
-                            <input
-                                v-model="form.title"
-                                id="in-title"
-                                type="text"
-                                class="w-full border-0 rounded bg-dark"
-                                name="title"
-                            />
-                            <InputError :message="form.errors.title" />
-                        </div>
+                        <input
+                            v-model="form.title"
+                            type="text"
+                            class="w-full border-0 rounded bg-dark"
+                            name="title"
+                        />
+                        <InputError :message="form.errors.title" />
                     </div>
 
                     <div>
                         <label class="required" for="amount">Amount</label>
-                        <div>
-                            <input
-                                v-model="form.amount"
-                                id="in-amount"
-                                type="number"
-                                class="w-full border-0 rounded bg-dark"
-                                name="amount"
-                            />
-                            <InputError :message="form.errors.amount" />
-                        </div>
+                        <input
+                            v-model="form.amount"
+                            type="number"
+                            class="w-full border-0 rounded bg-dark"
+                            name="amount"
+                        />
+                        <InputError :message="form.errors.amount" />
                     </div>
 
-                    <div>
-                        <label class="required" for="regular">Regular</label>
-                        <div>
-                            <select
-                                v-model="form.regular"
-                                id="in-regular"
-                                class="w-full border-0 rounded bg-dark"
-                                name="regular"
-                                @change="is_regular = !is_regular"
+                    <div class="switch-container">
+                        <label class="required switch-label" for="regular"
+                            >Regular</label
+                        >
+                        <select
+                            v-model="form.regular"
+                            class="switch-select"
+                            name="regular"
+                            hidden
+                            @change="is_regular = !is_regular"
+                        >
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                        <div class="flex gap-2">
+                            <div
+                                class="flex items-center rounded justify-center border-2 duration-100 hover:bg-green-500 border-green-600 w-full h-[40px] hover:cursor-pointer"
+                                :class="
+                                    form.regular === '1' ? 'bg-green-600' : ''
+                                "
+                                @click="form.regular = '1'"
                             >
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
-                            </select>
-                            <InputError :message="form.errors.regular" />
+                                <FontAwesomeIcon
+                                    :icon="faCheck"
+                                    class="text-xl"
+                                ></FontAwesomeIcon>
+                            </div>
+                            <div
+                                class="flex items-center rounded justify-center w-full hover:bg-red-500 duration-100 h-[40px] border-2 border-red-600 hover:cursor-pointer"
+                                :class="
+                                    form.regular === '0' ? 'bg-red-600' : ''
+                                "
+                                @click="form.regular = '0'"
+                            >
+                                <FontAwesomeIcon
+                                    :icon="faX"
+                                    class="text-xl"
+                                ></FontAwesomeIcon>
+                            </div>
                         </div>
+                        <InputError :message="form.errors.regular" />
                     </div>
 
                     <div>
                         <label for="period"
                             >Period
                             <FontAwesomeIcon
-                                v-if="!is_regular"
+                                v-if="form.regular == '0'"
                                 :icon="faLock"
                                 class="text-red-500"
                             ></FontAwesomeIcon>
                         </label>
-                        <div>
-                            <input
-                                :disabled="!is_regular"
-                                v-model="form.period"
-                                id="in-period"
-                                type="number"
-                                class="w-full duration-300 border-2 border-transparent rounded bg-dark"
-                                name="period"
-                                :class="
-                                    !is_regular
-                                        ? 'border-2 border-red-500 bg-red-900'
-                                        : ''
-                                "
-                            />
+                        <input
+                            :disabled="form.regular == '0'"
+                            v-model="form.period"
+                            type="number"
+                            class="w-full duration-300 border-2 border-transparent rounded bg-dark"
+                            name="period"
+                            :class="
+                                form.regular == '0'
+                                    ? 'border-2 border-red-500 bg-red-900'
+                                    : ''
+                            "
+                        />
 
-                            <InputError :message="form.errors.period" />
-                        </div>
+                        <InputError :message="form.errors.period" />
                     </div>
 
                     <div>
                         <label class="required" for="type">Type</label>
-                        <div>
+                        <div class="flex flex-wrap justify-between">
+                            <div
+                                class="duration-100 hover:-translate-y-1 hover:cursor-pointer"
+                                @click="form.type = type"
+                                :class="
+                                    form.type === type ? 'selected-type' : ''
+                                "
+                                v-for="type in [
+                                    'food_drink',
+                                    'housing',
+                                    'transportation',
+                                    'healthcare',
+                                    'entertainment',
+                                    'other',
+                                ]"
+                            >
+                                <FontAwesomeSwitch
+                                    :type="type"
+                                ></FontAwesomeSwitch>
+                            </div>
                             <select
+                                hidden
                                 v-model="form.type"
-                                id="in-type"
                                 class="w-full border-0 rounded bg-dark"
                                 name="type"
                             >
@@ -156,20 +239,50 @@ const submitForm = () => {
                         </div>
                     </div>
 
-                    <div class="mb-3 row">
+                    <div class="mb-3">
                         <label class="required" for="type_of_payment"
                             >Payment Type</label
                         >
                         <div>
                             <select
+                                hidden
                                 v-model="form.type_of_payment"
-                                id="in-type-of-payment"
                                 class="w-full border-0 rounded bg-dark"
                                 name="type_of_payment"
                             >
                                 <option value="cash">Cash</option>
                                 <option value="card">Card</option>
                             </select>
+                            <div class="flex gap-1 h-[40px]">
+                                <div
+                                    class="flex items-center justify-center w-full duration-100 border-2 border-green-600 rounded hover:bg-green-500 hover:cursor-pointer"
+                                    :class="
+                                        form.type_of_payment === 'cash'
+                                            ? 'bg-green-600'
+                                            : ''
+                                    "
+                                    @click="form.type_of_payment = 'cash'"
+                                >
+                                    <FontAwesomeIcon
+                                        class="text-xl"
+                                        :icon="faMoneyBill"
+                                    />
+                                </div>
+                                <div
+                                    class="flex items-center justify-center w-full duration-100 border-2 border-yellow-400 rounded hover:bg-yellow-300 hover:cursor-pointer"
+                                    @click="form.type_of_payment = 'card'"
+                                    :class="
+                                        form.type_of_payment === 'card'
+                                            ? 'bg-yellow-400'
+                                            : ''
+                                    "
+                                >
+                                    <FontAwesomeIcon
+                                        class="text-xl"
+                                        :icon="faCreditCard"
+                                    />
+                                </div>
+                            </div>
                             <InputError
                                 :message="form.errors.type_of_payment"
                             />
@@ -191,3 +304,16 @@ const submitForm = () => {
         </div>
     </transition>
 </template>
+
+<style scoped>
+.selected-type {
+    position: relative;
+}
+.selected-type::after {
+    content: "✓";
+    @apply bg-green-600 text-white rounded-full w-[20px] h-[20px] text-sm text-[15px] text-center flex items-center justify-center;
+    top: -5px;
+    right: -5px;
+    position: absolute;
+}
+</style>

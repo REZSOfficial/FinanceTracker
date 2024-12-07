@@ -73,11 +73,7 @@ const updateCharts = () => {
     if (byTypeChart) byTypeChart.destroy();
     const byTypeChartCanvas = document.getElementById("by-type");
 
-    console.log(incomingByType.value);
-    console.log(outgoingByType.value);
-
     // Add labels for outgoing and incoming
-    // Find a unique set of all types from incoming and outgoing data
     const allTypes = [
         ...new Set([
             ...incomingByType.value.map((item) => item.type),

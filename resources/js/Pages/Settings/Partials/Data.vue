@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
-import FontAwesomeSwitch from "../../Settings/Partials/FontAwesomeSwitchSettings.vue";
+import FontAwesomeSwitch from "@/Components/FontAwesomeSwitch.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import ActionMessage from "@/Components/ActionMessage.vue";
 
@@ -21,7 +21,7 @@ const dataForm = useForm({
 <template>
     <form
         @submit.prevent="dataForm.post(route('settings.update'))"
-        class="flex flex-col w-5/6 mx-auto gap-y-6"
+        class="flex flex-col w-5/6 mx-auto gap-y-8"
     >
         <div class="flex flex-col sm:flex-row gap-x-2">
             <FontAwesomeSwitch :type="'food_drink'"></FontAwesomeSwitch>
@@ -35,7 +35,9 @@ const dataForm = useForm({
                         name="food_drink"
                         v-model="dataForm.food_drink"
                     />
-                    <p class="mt-auto text-4xl text-green-600">$</p>
+                    <p class="mt-auto text-4xl text-green-600">
+                        {{ $page.props.auth.user.currency }}
+                    </p>
                 </div>
             </div>
         </div>
@@ -51,7 +53,9 @@ const dataForm = useForm({
                         name="housing"
                         v-model="dataForm.housing"
                     />
-                    <p class="mt-auto text-4xl text-green-600">$</p>
+                    <p class="mt-auto text-4xl text-green-600">
+                        {{ $page.props.auth.user.currency }}
+                    </p>
                 </div>
             </div>
         </div>
@@ -67,7 +71,9 @@ const dataForm = useForm({
                         name="transportation"
                         v-model="dataForm.transportation"
                     />
-                    <p class="mt-auto text-4xl text-green-600">$</p>
+                    <p class="mt-auto text-4xl text-green-600">
+                        {{ $page.props.auth.user.currency }}
+                    </p>
                 </div>
             </div>
         </div>
@@ -83,7 +89,9 @@ const dataForm = useForm({
                         name="healthcare"
                         v-model="dataForm.healthcare"
                     />
-                    <p class="mt-auto text-4xl text-green-600">$</p>
+                    <p class="mt-auto text-4xl text-green-600">
+                        {{ $page.props.auth.user.currency }}
+                    </p>
                 </div>
             </div>
         </div>
@@ -99,7 +107,9 @@ const dataForm = useForm({
                         name="entertainment"
                         v-model="dataForm.entertainment"
                     />
-                    <p class="mt-auto text-4xl text-green-600">$</p>
+                    <p class="mt-auto text-4xl text-green-600">
+                        {{ $page.props.auth.user.currency }}
+                    </p>
                 </div>
             </div>
         </div>
@@ -115,7 +125,9 @@ const dataForm = useForm({
                         name="other"
                         v-model="dataForm.other"
                     />
-                    <p class="mt-auto text-4xl text-green-600">$</p>
+                    <p class="mt-auto text-4xl text-green-600">
+                        {{ $page.props.auth.user.currency }}
+                    </p>
                 </div>
             </div>
         </div>

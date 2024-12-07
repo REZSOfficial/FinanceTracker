@@ -27,7 +27,7 @@ class Incoming extends Model
 
     public static function getRegularIncomingByUserId(String $id)
     {
-        return Incoming::where('user_id', $id)->where('regular', 1)->whereNot('period', 0)->get();
+        return Incoming::where('user_id', $id)->where('regular', 1)->whereNot('period', 0)->orderBy('created_at', 'desc')->get();
     }
 
     public static function getAverage(): array

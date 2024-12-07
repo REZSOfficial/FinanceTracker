@@ -83,7 +83,8 @@ const deleteGoal = (goalId) => {
                         <p>
                             <strong>Amount: </strong>
                             <span class="font-bold text-green-600"
-                                >{{ goal.price }}$</span
+                                >{{ goal.price
+                                }}{{ $page.props.auth.user.currency }}</span
                             >
                         </p>
                         <p>

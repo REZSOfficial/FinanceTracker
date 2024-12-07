@@ -63,47 +63,41 @@ const submitForm = () => {
                 <div class="flex flex-col w-2/3 mx-auto gap-y-2">
                     <div>
                         <label class="required" for="title">Title</label>
-                        <div>
-                            <input
-                                v-model="form.title"
-                                id="out-title"
-                                type="text"
-                                class="w-full border-0 rounded bg-dark"
-                                name="title"
-                            />
-                            <InputError :message="form.errors.title" />
-                        </div>
+                        <input
+                            v-model="form.title"
+                            id="out-title"
+                            type="text"
+                            class="w-full border-0 rounded bg-dark"
+                            name="title"
+                        />
+                        <InputError :message="form.errors.title" />
                     </div>
 
                     <div>
                         <label class="required" for="amount">Amount</label>
-                        <div>
-                            <input
-                                v-model="form.amount"
-                                id="out-amount"
-                                type="number"
-                                class="w-full border-0 rounded bg-dark"
-                                name="amount"
-                            />
-                            <InputError :message="form.errors.amount" />
-                        </div>
+                        <input
+                            v-model="form.amount"
+                            id="out-amount"
+                            type="number"
+                            class="w-full border-0 rounded bg-dark"
+                            name="amount"
+                        />
+                        <InputError :message="form.errors.amount" />
                     </div>
 
                     <div>
                         <label class="required" for="regular">Regular</label>
-                        <div>
-                            <select
-                                v-model="form.regular"
-                                id="out-regular"
-                                class="w-full border-0 rounded bg-dark"
-                                name="regular"
-                                @change="is_regular = !is_regular"
-                            >
-                                <option value="1">Yes</option>
-                                <option value="0">No</option>
-                            </select>
-                            <InputError :message="form.errors.regular" />
-                        </div>
+                        <select
+                            v-model="form.regular"
+                            id="out-regular"
+                            class="w-full border-0 rounded bg-dark"
+                            name="regular"
+                            @change="is_regular = !is_regular"
+                        >
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                        <InputError :message="form.errors.regular" />
                     </div>
 
                     <div>
@@ -115,69 +109,55 @@ const submitForm = () => {
                                 class="text-red-500"
                             ></FontAwesomeIcon
                         ></label>
-                        <div>
-                            <input
-                                :disabled="!is_regular"
-                                v-model="form.period"
-                                id="out-period"
-                                type="number"
-                                class="w-full duration-300 border-2 border-transparent rounded bg-dark"
-                                name="period"
-                                :class="
-                                    !is_regular
-                                        ? ' border-red-500 bg-red-900'
-                                        : ''
-                                "
-                            />
+                        <input
+                            :disabled="!is_regular"
+                            v-model="form.period"
+                            id="out-period"
+                            type="number"
+                            class="w-full duration-300 border-2 border-transparent rounded bg-dark"
+                            name="period"
+                            :class="
+                                !is_regular ? ' border-red-500 bg-red-900' : ''
+                            "
+                        />
 
-                            <InputError :message="form.errors.period" />
-                        </div>
+                        <InputError :message="form.errors.period" />
                     </div>
 
                     <div>
                         <label class="required" for="type">Type</label>
-                        <div>
-                            <select
-                                v-model="form.type"
-                                id="out-type"
-                                class="w-full border-0 rounded bg-dark"
-                                name="type"
-                            >
-                                <option value="food_drink">
-                                    Food and drink
-                                </option>
-                                <option value="housing">Housing</option>
-                                <option value="transportation">
-                                    Transportation
-                                </option>
-                                <option value="healthcare">Healthcare</option>
-                                <option value="entertainment">
-                                    Entertainment
-                                </option>
-                                <option value="other">Other</option>
-                            </select>
-                            <InputError :message="form.errors.type" />
-                        </div>
+                        <select
+                            v-model="form.type"
+                            id="out-type"
+                            class="w-full border-0 rounded bg-dark"
+                            name="type"
+                        >
+                            <option value="food_drink">Food and drink</option>
+                            <option value="housing">Housing</option>
+                            <option value="transportation">
+                                Transportation
+                            </option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="entertainment">Entertainment</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <InputError :message="form.errors.type" />
                     </div>
 
                     <div class="mb-3 row">
                         <label class="required" for="type_of_payment"
                             >Payment Type</label
                         >
-                        <div>
-                            <select
-                                v-model="form.type_of_payment"
-                                id="out-type-of-payment"
-                                class="w-full border-0 rounded bg-dark"
-                                name="type_of_payment"
-                            >
-                                <option value="cash">Cash</option>
-                                <option value="card">Card</option>
-                            </select>
-                            <InputError
-                                :message="form.errors.type_of_payment"
-                            />
-                        </div>
+                        <select
+                            v-model="form.type_of_payment"
+                            id="out-type-of-payment"
+                            class="w-full border-0 rounded bg-dark"
+                            name="type_of_payment"
+                        >
+                            <option value="cash">Cash</option>
+                            <option value="card">Card</option>
+                        </select>
+                        <InputError :message="form.errors.type_of_payment" />
                     </div>
 
                     <div>

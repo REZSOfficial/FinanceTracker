@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\DataRequest;
-use App\Http\Requests\PreferenceRequest;
 use App\Models\Data;
 use Inertia\Inertia;
 use App\Models\Balance;
 use App\Models\Preference;
 use Illuminate\Http\Request;
+use App\Http\Requests\DataRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\PreferenceRequest;
+use App\Models\User;
 
 class SettingController extends Controller
 {
@@ -24,10 +25,13 @@ class SettingController extends Controller
         $data = Data::where('user_id', Auth::user()->id)->first();
         $balance = Balance::getBalanceByUserId(Auth::user()->id);
 
+        $currentCurrency = Auth::user()->currency;
+
         return Inertia::render('Settings/Show', [
             'data' => $data,
             'balance' => $balance,
-            'preferences' => $preferences
+            'preferences' => $preferences,
+            'currentCurrency' => $currentCurrency
         ]);
     }
 
@@ -80,6 +84,21 @@ class SettingController extends Controller
         $preference->other = $request['other'];
 
         $preference->save();
+
+        return redirect()->back();
+    }
+
+    public function updateCurrency(Request $request)
+    {
+        $request->validate([
+            'currency' => 'string',
+        ]);
+
+        $user = User::find(Auth::user()->id);
+
+        $user->currency = $request['currency'];
+
+        $user->save();
 
         return redirect()->back();
     }

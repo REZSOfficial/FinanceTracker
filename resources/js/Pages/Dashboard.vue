@@ -270,11 +270,7 @@ function initializeAvgChart() {
             <div class="flex flex-col md:mx-12 gap-x-4">
                 <!-- Regular Incoming -->
                 <div v-if="regularIncomingsState.length" class="mt-8">
-                    <h1
-                        class="px-12 py-4 mx-auto text-3xl text-center text-gray-300 border-2 border-gray-400 shadow-2xl shadow-slate-200/20 bg-dark w-fit rounded-2xl"
-                    >
-                        Regular Incoming
-                    </h1>
+                    <h1 class="title">Regular Incoming</h1>
 
                     <div
                         class="grid grid-cols-1 gap-5 p-4 mx-auto mt-8 rounded-lg md:grid-cols-2 grid-flow-auto bg-dark/75"
@@ -339,11 +335,7 @@ function initializeAvgChart() {
 
                 <!-- Regular Outgoing -->
                 <div v-if="regularPaymentsState.length" class="mt-8">
-                    <h1
-                        class="px-12 py-4 mx-auto text-3xl text-center text-gray-300 border-2 border-gray-400 shadow-2xl shadow-slate-200/20 bg-dark w-fit rounded-2xl"
-                    >
-                        Regular Outgoing
-                    </h1>
+                    <h1 class="title">Regular Outgoing</h1>
                     <div
                         class="grid grid-cols-1 gap-5 p-4 mx-auto mt-8 rounded-lg md:grid-cols-2 grid-flow-auto bg-dark/75"
                     >

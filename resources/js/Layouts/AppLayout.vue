@@ -24,7 +24,6 @@ defineProps({
 const showingNavigationDropdown = ref(false);
 
 const showCreateIncoming = ref(false);
-const showCreateOutgoing = ref(false);
 
 const switchToTeam = (team) => {
     router.put(
@@ -41,12 +40,20 @@ const switchToTeam = (team) => {
 const logout = () => {
     router.post(route("logout"));
 };
+
+const showModal = () => {
+    document.getElementById("app-container").classList.toggle("blur-sm");
+    showCreateIncoming.value = !showCreateIncoming.value;
+};
 </script>
 
 <template>
     <div>
         <Head :title="title" />
-
+        <AddIncoming
+            @close="showModal"
+            :show="showCreateIncoming"
+        ></AddIncoming>
         <div class="min-h-screen" id="app-container">
             <nav>
                 <!-- Primary Navigation Menu -->
@@ -418,18 +425,9 @@ const logout = () => {
                         id="inBtn"
                         class="bg-green-600 hover:bg-green-700"
                         role="button"
-                        @click="showCreateIncoming = !showCreateIncoming"
+                        @click="showModal"
                     >
-                        Add incoming
-                    </PrimaryButton>
-                    <PrimaryButton
-                        :icon="faMinus"
-                        id="outBtn"
-                        class="bg-red-600 hover:bg-red-700"
-                        role="button"
-                        @click="showCreateOutgoing = !showCreateOutgoing"
-                    >
-                        Add outgoing
+                        Add Payment
                     </PrimaryButton>
                     <PrimaryButton
                         :icon="faBullseye"
@@ -439,14 +437,6 @@ const logout = () => {
                         ></PrimaryButton
                     >
                 </div>
-                <AddIncoming
-                    @close="showCreateIncoming = false"
-                    :show="showCreateIncoming"
-                ></AddIncoming>
-                <AddOutgoing
-                    @close="showCreateOutgoing = false"
-                    :show="showCreateOutgoing"
-                ></AddOutgoing>
             </main>
         </div>
     </div>

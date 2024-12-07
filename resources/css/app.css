@@ -7,12 +7,13 @@
     --light: #002233;
     --ligther: #b6bbc4;
     --bg: #f0ece5;
-    --linear-bg: url("../images/stacked-waves-haikei.svg");
-    --footer-bg: url("../images/layered-waves-haikei.svg");
 }
 
 body {
     font-family: monospace !important;
+    /*fixed bg*/
+    background: fixed;
+    background-size: cover;
 }
 
 [x-cloak] {
@@ -60,4 +61,20 @@ input {
 .required:after {
     content: "*";
     color: red;
+}
+
+.dash-shadow-green {
+    box-shadow: 0 0 6px 1px rgb(46, 255, 133);
+}
+
+.dash-shadow-red {
+    box-shadow: 0 0 6px 1px rgb(255, 65, 65);
+}
+
+.title {
+    @apply px-10 py-3 mx-auto text-3xl text-center text-gray-300 border-2 border-gray-400 shadow-2xl shadow-slate-200/20 bg-dark w-fit rounded-2xl;
+}
+
+.filter-input {
+    @apply w-full border-0 rounded-lg drop-shadow-sm bg-light;
 }

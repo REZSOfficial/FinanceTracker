@@ -5,16 +5,17 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 const props = defineProps({
     regular: Object,
     type: String,
+    currentCurrency: String,
 });
 </script>
 
 <template>
     <div
-        class="relative flex justify-between p-4 overflow-hidden text-xl text-white duration-100 border-2 rounded bg-light gap-x-3"
+        class="relative flex justify-between p-4 overflow-hidden text-xl text-white duration-100 rounded bg-light gap-x-3"
         :class="
             regular.remaining_months == 0
-                ? 'border-red-600 '
-                : 'border-transparent'
+                ? 'border-red-600 dash-shadow-red'
+                : 'border-transparent dash-shadow-green'
         "
     >
         <div class="absolute right-1 top-1">
@@ -44,9 +45,11 @@ const props = defineProps({
                 </p>
             </div>
             <p v-if="type === 'incoming'" class="text-green-600">
-                +{{ regular.amount }}$
+                +{{ regular.amount }} {{ $page.props.auth.user.currency }}
             </p>
-            <p v-else class="text-red-600">-{{ regular.amount }}$</p>
+            <p v-else class="text-red-600">
+                -{{ regular.amount }} {{ $page.props.auth.user.currency }}
+            </p>
             <div>
                 <div
                     class="w-full border-2 border-green-800 rounded-full h-4.5 bg-transparent p-1"

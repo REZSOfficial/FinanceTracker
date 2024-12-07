@@ -39,6 +39,7 @@ Route::middleware([
         Route::post('/update', [SettingController::class, 'update'])->name('settings.update');
         Route::post('/updatebalance', [SettingController::class, 'updateBalance'])->name('balance.update');
         Route::post('/updatepreferences', [SettingController::class, 'updatePreferences'])->name('preferences.update');
+        Route::put('/updatecurrency', [SettingController::class, 'updateCurrency'])->name('currency.update');
     });
 
     // Payments
