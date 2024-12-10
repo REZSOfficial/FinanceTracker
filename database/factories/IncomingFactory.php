@@ -16,7 +16,7 @@ class IncomingFactory extends Factory
      */
     public function definition(): array
     {
-        $regular = $this->faker->boolean(50);
+        $regular = $this->faker->boolean(20);
         $period = $regular ? $this->faker->numberBetween(2, 30) : null;
         return [
             'user_id' => User::factory(),

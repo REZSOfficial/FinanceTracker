@@ -19,6 +19,11 @@
         href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <!-- FullCalendar JS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+
     <!-- Scripts -->
     @routes
     @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])

@@ -30,11 +30,12 @@ class Incoming extends Model
         return Incoming::where('user_id', $id)->where('regular', 1)->whereNot('period', 0)->orderBy('created_at', 'desc')->get();
     }
 
-    public static function getAverage(): array
+    public static function getAverage(int $user_id): array
     {
         $averageIncoming = DB::table('incomings')
             ->selectRaw('MONTH(created_at) AS month, COALESCE(AVG(amount), 0) AS amount')
             ->whereYear('created_at', '=', date('Y')) // Limit to the current year if needed
+            ->where('user_id', '=', $user_id)
             ->groupBy('month')
             ->orderBy('month')
             ->get()
@@ -49,17 +50,18 @@ class Incoming extends Model
         return $averageIncomingArray;
     }
 
-    public static function getAverageByType(int $month, ?string $type = null): array
+    public static function getAverageByType(int $month, int $user_id, ?string $type = null): array
     {
         // Base SQL query to get average by type
         $query = "
         SELECT type, AVG(amount) as avg_amount
         FROM incomings
-        WHERE MONTH(created_at) = ?
+        WHERE user_id = ?
+        and MONTH(created_at) = ?
     ";
 
         // Parameters for the query
-        $params = [$month];
+        $params = [$user_id, $month];
 
         // Append type condition if provided
         if ($type) {
