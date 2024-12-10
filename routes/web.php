@@ -9,6 +9,7 @@ use App\Http\Controllers\GoalController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SavingController;
 use App\Http\Controllers\BalanceController;
+use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\IncomingController;
@@ -59,6 +60,11 @@ Route::middleware([
         Route::get('/{id}', [GoalController::class, 'view'])->name('showGoal');
         Route::post('/save', [GoalController::class, 'save'])->name('saveGoal');
         Route::post('/generate-content', [GoalController::class, 'generateResponse'])->name('generateResponse');
+    });
+
+    // Calendar
+    Route::prefix('calendar')->group(function () {
+        Route::get('/', [CalendarController::class, 'index'])->name('showCalendar');
     });
 
     // Balance

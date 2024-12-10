@@ -94,6 +94,12 @@ const showModal = () => {
                             >
                                 Average
                             </NavLink>
+                            <NavLink
+                                :href="route('showCalendar')"
+                                :active="route().current('showCalendar')"
+                            >
+                                Calendar
+                            </NavLink>
                         </div>
 
                         <div class="hidden md:flex sm:items-center sm:ms-6">
@@ -256,6 +262,12 @@ const showModal = () => {
                             :active="route().current('averages.index')"
                         >
                             Average
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('showCalendar')"
+                            :active="route().current('showCalendar')"
+                        >
+                            Calendar
                         </ResponsiveNavLink>
                     </div>
 

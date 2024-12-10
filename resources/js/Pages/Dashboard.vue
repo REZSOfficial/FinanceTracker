@@ -236,28 +236,40 @@ function initializeAvgChart() {
                             <FontAwesomeIcon
                                 class="text-red-600 me-2"
                                 :icon="faChevronDown"
-                            />{{ inAndOut.out
-                            }}<span class="text-green-600">$</span>
+                            />{{ inAndOut.out }}&nbsp;<span
+                                class="text-green-600"
+                            >
+                                {{ $page.props.auth.user.currency }}</span
+                            >
                         </p>
                         <p>
                             <FontAwesomeIcon
                                 class="text-green-600 me-2"
                                 :icon="faChevronUp"
-                            />{{ inAndOut.in
-                            }}<span class="text-green-600">$</span>
+                            />{{ inAndOut.in }}&nbsp;<span
+                                class="text-green-600"
+                            >
+                                {{ $page.props.auth.user.currency }}</span
+                            >
                         </p>
                         <p>
                             <FontAwesomeIcon
                                 class="text-orange-600 me-2"
                                 :icon="faEquals"
-                            />{{ inAndOut.in - inAndOut.out
-                            }}<span class="text-green-600">$</span>
+                            />{{ inAndOut.in - inAndOut.out }}&nbsp;<span
+                                class="text-green-600"
+                            >
+                                {{ $page.props.auth.user.currency }}</span
+                            >
                         </p>
                         <p
                             class="p-1 px-4 text-center border-2 border-green-700 rounded-full bg-dark"
                         >
-                            {{ balance.balance
-                            }}<span class="text-green-600">$</span>
+                            {{ balance.balance }}&nbsp;<span
+                                class="text-green-600"
+                            >
+                                {{ $page.props.auth.user.currency }}</span
+                            >
                         </p>
                     </div>
                     <div class="px-2 my-auto bg-red-600 rounded" v-else>
