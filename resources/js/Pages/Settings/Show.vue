@@ -5,7 +5,6 @@ import Balance from "./Partials/Balance.vue";
 import { ref } from "vue";
 import Preferences from "./Partials/Preferences.vue";
 import Currency from "./Partials/Currency.vue";
-import Background from "./Partials/Background.vue";
 
 const page = ref("data");
 
@@ -54,13 +53,6 @@ const props = defineProps({
                 >
                     Currency
                 </p>
-                <p
-                    :class="page === 'background' ? 'glass' : ''"
-                    @click="page = 'background'"
-                    class="p-2 px-3 duration-100 rounded cursor-pointer hover:glass hover:bg-gray-700"
-                >
-                    Background
-                </p>
             </div>
             <div class="w-full py-6 sm:px-6 lg:px-8">
                 <Transition
@@ -104,13 +96,6 @@ const props = defineProps({
                         :currency="props.currentCurrency"
                         v-if="page === 'currency'"
                     ></Currency>
-                </Transition>
-                <Transition
-                    enter-active-class="transition ease-out duration-800"
-                    enter-from-class="transform scale-50 opacity-0"
-                    enter-to-class="transform scale-100 opacity-100"
-                >
-                    <Background v-if="page === 'background'"></Background>
                 </Transition>
             </div>
         </div>

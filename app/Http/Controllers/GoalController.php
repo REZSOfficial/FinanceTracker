@@ -45,12 +45,6 @@ class GoalController extends Controller
         ]);
     }
 
-    public function view($id)
-    {
-        $goal = Goal::find($id);
-        return view('goals.view', ['goal' => $goal]);
-    }
-
     public function delete($id, Request $request)
     {
         Goal::find($id)->delete();
@@ -76,8 +70,8 @@ class GoalController extends Controller
     public function createGeminiText(Goal $goal)
     {
         $allGoals = Goal::where('user_id', Auth::user()->id)->get();
-        $incoming = Incoming::where('user_id', Auth::user()->id);
-        $payments = Payment::where('user_id', Auth::user()->id);
+        $incoming = Incoming::where('user_id', Auth::user()->id)->where('regular', 1)->get();
+        $payments = Payment::where('user_id', Auth::user()->id)->where('regular', 1)->get();
         $balance = Balance::getBalanceByUserId(Auth::user()->id);
         $savings = Saving::where('user_id', Auth::user()->id)->first();
 
@@ -99,24 +93,21 @@ class GoalController extends Controller
         $outgoingText = "";
 
         foreach ($incoming as $i) {
-            if ($incoming->regular) {
-                $incomingText = $incomingText . $i->title . " - " . $i->amount . "Im receiving this amount from " . $i->created_at . "for " . $i->period . "\n";
-            }
+            $incomingText = $incomingText . $i->title . "(title) - " . $i->amount . "(amount) Im receiving this amount from " . $i->created_at . " for " . $i->period . " months \n";
         }
 
         foreach ($payments as $p) {
-            if ($p->regular) {
-                $outgoingText = $outgoingText . $p->title . " - " . $p->amount . "Im paying this amount to " . $p->created_at . "for " . $p->period . "\n";
-            }
+            $outgoingText = $outgoingText . $p->title . "(title) - " . $p->amount . "(amount) Im paying this amount from " . $p->created_at . " for " . $p->period . " months \n";
         }
 
-        $text = "Hi, i have some financial goals that i want to achieve, not that the current date is " . Carbon::now() .
+        $text = "Hi, i have some financial goals that i want to achieve, the current date is " . Carbon::now() .
             ". The one im asking you about is titled: " . $goal->title . ".
          The amount i need to save up is: " . $goal->price . "
          The date i need to achieve this goal is: " . $goal->date . "
          I also have other goals that i want to achieve (if this is empty then ignore it):" . $other_goal_text .
             "My current balance is " . $balance->balance . ". I have " . $incoming->count() . " incoming transactions and " . $payments->count() . " payments.
-         These payments are: " . $outgoingText . "These incoming transactions are: " . $incomingText . "I have " . $savings . " in savings. (this might be 0, then ignore it)";
+         These payments are: " . $outgoingText . "These incoming transactions are: " . $incomingText . "I have " . $savings . " in savings. (this might be 0, then ignore it). Can you tell me if this goal is achiavable based on my balance and outgoing and incoming payments?";
+
         return $text;
     }
 }

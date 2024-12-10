@@ -55,13 +55,13 @@ const deleteGoal = (goalId) => {
         <div
             class="flex flex-col w-2/3 p-3 mx-auto mt-8 text-sm text-gray-200 rounded-lg gap-y-2 glass min-w-fit sm:text-2xl"
         >
+            <PrimaryButton
+                :icon="faBullseye"
+                class="bg-yellow-600 hover:bg-yellow-700"
+                ><a :href="route('createGoal')">Add Goal</a></PrimaryButton
+            >
             <div class="flex justify-between" v-if="goals.length === 0">
                 <h1 class="my-auto text-yellow-500">No Goals Yet</h1>
-                <PrimaryButton
-                    :icon="faBullseye"
-                    class="bg-yellow-600 hover:bg-yellow-700"
-                    ><a :href="route('createGoal')">Add Goal</a></PrimaryButton
-                >
             </div>
             <div v-else v-for="goal in goals" :key="goal.id">
                 <div
@@ -108,7 +108,7 @@ const deleteGoal = (goalId) => {
                     </div>
                 </Accordion>
             </div>
-            <p v-if="loading">Loading...</p>
+            <p v-if="loading" class="loader"></p>
             <p
                 class="text-green-600 text-md"
                 v-if="generatedResponse"
@@ -117,3 +117,59 @@ const deleteGoal = (goalId) => {
         </div>
     </AppLayout>
 </template>
+
+<style scoped>
+.loader {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 4rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+.loader:before,
+.loader:after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    animation: pulsOut 1.8s ease-in-out infinite;
+    filter: drop-shadow(0 0 1rem rgba(255, 255, 255, 0.75));
+}
+.loader:before {
+    width: 100%;
+    padding-bottom: 100%;
+    box-shadow: inset 0 0 0 1rem #fff;
+    animation-name: pulsIn;
+}
+.loader:after {
+    width: calc(100% - 2rem);
+    padding-bottom: calc(100% - 2rem);
+    box-shadow: 0 0 0 0 #fff;
+}
+
+@keyframes pulsIn {
+    0% {
+        box-shadow: inset 0 0 0 1rem #fff;
+        opacity: 1;
+    }
+    50%,
+    100% {
+        box-shadow: inset 0 0 0 0 #fff;
+        opacity: 0;
+    }
+}
+
+@keyframes pulsOut {
+    0%,
+    50% {
+        box-shadow: 0 0 0 0 #fff;
+        opacity: 0;
+    }
+    100% {
+        box-shadow: 0 0 0 1rem #fff;
+        opacity: 1;
+    }
+}
+</style>
