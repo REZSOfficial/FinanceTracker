@@ -1,7 +1,7 @@
 # Laravel Inertia.js + Vue.js Project
 
 ## Projekt leírása
-Ez a projekt egy Laravel alapú backend és Inertia.js-t használó frontend alkalmazás, amely Vue.js-t alkalmaz az interaktív felhasználói felület megvalósításához. A cél egy modern webes alkalmazás létrehozása, amely gyors és dinamikus működést biztosít.
+Ez a projekt egy Laravel alapú backend és Inertia.js-t használó frontend alkalmazás, amely Vue.js-t alkalmaz az interaktív felhasználói felület megvalósításához.
 
 ## Telepítés
 
